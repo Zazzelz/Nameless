@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmrryh64k1gtx"]
+
+[ext_resource type="Script" uid="uid://daqx4us6edws5" path="res://02_Game_Manager/game_manager.gd" id="1_1hi73"]
+
+[sub_resource type="Theme" id="Theme_3mfio"]
+
+[node name="GameManager" type="Control"]
+layout_mode = 3
+anchor_right = 5.6799974
+anchor_bottom = 1.0
+offset_right = -5391.357
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0028881, 1)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_3mfio")
+script = ExtResource("1_1hi73")
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerRollResult" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.6616211
+offset_top = -46.0
+offset_right = 0.3383789
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1, 1.0140942)
+
+[node name="OpponentRollResult" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 0.33544922
+offset_top = 22.0
+offset_right = 1.3354492
+offset_bottom = 45.0
+grow_horizontal = 2
+
+[node name="GameResult" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
