@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://dnkq6bobp6kdd"]
+
+[ext_resource type="Script" uid="uid://e7jj8brkry35" path="res://05_Cards/00_Card_Deck/CardData.gd" id="1_8ylwp"]
+
+[resource]
+script = ExtResource("1_8ylwp")
+card_name = "Advantage"
+description = "Roll and extra dice and take the higher result"
+effect_type = "advantage"
+metadata/_custom_type_script = "uid://e7jj8brkry35"

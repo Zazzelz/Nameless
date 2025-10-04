@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://b66hrag6lmwl4"]
+
+[ext_resource type="Texture2D" uid="uid://dolbcwu3kp73l" path="res://00_Assets/02_Cards/Tarot Cats/FrontCard.png" id="1_52c0s"]
+[ext_resource type="FontFile" uid="uid://dnh7h7xgibyjj" path="res://00_Assets/04_Fonts/friendlyscribbles/friendlyscribbles.ttf" id="2_o4o6g"]
+
+[node name="CardUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1664.0
+offset_bottom = 2880.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_52c0s")
+
+[node name="NameLabel" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 123.0
+offset_top = 42.0
+offset_right = 182.0
+offset_bottom = 65.0
+grow_horizontal = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_o4o6g")
+theme_override_font_sizes/font_size = 22
+
+[node name="AbilityLabel" type="Label" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(250, 115)
+layout_direction = 2
+layout_mode = 0
+offset_left = 44.0
+offset_top = 377.0
+offset_right = 294.0
+offset_bottom = 492.0
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_o4o6g")
+theme_override_font_sizes/font_size = 28
+autowrap_mode = 2

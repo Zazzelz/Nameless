@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://ia83oh5gcxdt"]
+
+[ext_resource type="Texture2D" uid="uid://be3dcqsyh2w53" path="res://04_Enemies/Idle.png" id="1_6x257"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6x257"]
+atlas = ExtResource("1_6x257")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkhnk"]
+atlas = ExtResource("1_6x257")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dn2xs"]
+atlas = ExtResource("1_6x257")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rg0k"]
+atlas = ExtResource("1_6x257")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5goxj"]
+atlas = ExtResource("1_6x257")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1y7j3"]
+atlas = ExtResource("1_6x257")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66rqo"]
+atlas = ExtResource("1_6x257")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3vs4"]
+atlas = ExtResource("1_6x257")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjyxx"]
+atlas = ExtResource("1_6x257")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvowt"]
+atlas = ExtResource("1_6x257")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4w1o4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6x257")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkhnk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dn2xs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rg0k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5goxj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1y7j3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66rqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3vs4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjyxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvowt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Enemy01" type="Node3D"]
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_4w1o4")
+autoplay = "default"

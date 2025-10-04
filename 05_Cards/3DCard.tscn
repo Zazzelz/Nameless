@@ -1,0 +1,161 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7abjrwsswkxq"]
+
+[ext_resource type="Texture2D" uid="uid://dolbcwu3kp73l" path="res://00_Assets/02_Cards/Tarot Cats/FrontCard.png" id="1_xlhqa"]
+[ext_resource type="Texture2D" uid="uid://7jxw6gu80l47" path="res://00_Assets/02_Cards/Tarot Cats/9. The Hermit.png" id="2_u01fu"]
+[ext_resource type="FontFile" uid="uid://dnh7h7xgibyjj" path="res://00_Assets/04_Fonts/friendlyscribbles/friendlyscribbles.ttf" id="3_u01fu"]
+
+[sub_resource type="GDScript" id="GDScript_eilbg"]
+resource_name = "3DCard"
+script/source = "extends Node3D
+
+@onready var front_face := $FrontFace
+@onready var sub_viewport := get_node_or_null(\"SubViewport\")
+
+var card_data: CardData
+var tween: Tween
+
+func _ready():
+	# If card_data was set before _ready, apply it now
+	if card_data:
+		apply_card_data()
+
+func set_card_data(data: CardData):
+	card_data = data
+
+	# If _ready has already run, apply immediately
+	if is_inside_tree():
+		apply_card_data()
+
+func apply_card_data():
+	if not sub_viewport:
+		push_error(\"SubViewport not found\")
+		return
+
+	var card_ui = sub_viewport.get_child(0) # Get the root of the internal scene
+	if not card_ui:
+		push_error(\"CardUI not found inside SubViewport\")
+		return
+
+	var name_label = card_ui.get_node_or_null(\"NameLabel\")
+	var ability_label = card_ui.get_node_or_null(\"AbilityLabel\")
+	var icon = card_ui.get_node_or_null(\"Icon\")
+
+	if name_label:
+		name_label.text = card_data.card_name
+	else:
+		push_warning(\"NameLabel not found in CardUI\")
+
+	if ability_label:
+		ability_label.text = card_data.description
+		ability_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	else:
+		push_warning(\"AbilityLabel not found in CardUI\")
+
+	if icon and card_data.icon_texture:
+		icon.texture = card_data.icon_texture
+	elif not icon:
+		push_warning(\"Icon node not found in CardUI\")
+		
+func flip_card():
+	rotation_degrees.y += 180
+
+func _on_area_3d_mouse_entered() -> void:
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, \"position:y\", position.y + 0.2, 0.2)\\
+		.set_trans(Tween.TRANS_SINE)\\
+		.set_ease(Tween.EASE_OUT)
+
+func _on_area_3d_mouse_exited() -> void:
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, \"position:y\", position.y - 0.2, 0.2)\\
+		.set_trans(Tween.TRANS_SINE)\\
+		.set_ease(Tween.EASE_IN)
+"
+
+[sub_resource type="QuadMesh" id="QuadMesh_akik1"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xlhqa"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u01fu"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_xlhqa")
+
+[sub_resource type="QuadMesh" id="QuadMesh_krt4j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uuvb2"]
+albedo_texture = ExtResource("2_u01fu")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u01fu"]
+size = Vector3(1, 1, 0.02154541)
+
+[node name="3dCard" type="Node3D"]
+transform = Transform3D(1.1464113e-15, 1, -4.371139e-08, 2.6226834e-08, -4.371139e-08, -1, -0.6, 0, -4.371139e-08, 0, 0.029034138, 0)
+script = SubResource("GDScript_eilbg")
+
+[node name="FrontFace" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_akik1")
+surface_material_override/0 = SubResource("StandardMaterial3D_u01fu")
+
+[node name="BackFace" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.742277e-08, 0, 1, 0, 8.742278e-08, 0, -0.99999994, 0, 0, 0)
+mesh = SubResource("QuadMesh_krt4j")
+surface_material_override/0 = SubResource("StandardMaterial3D_uuvb2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(335, 512)
+render_target_update_mode = 4
+
+[node name="CardUi" type="Control" parent="SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Icon" type="TextureRect" parent="SubViewport/CardUi"]
+layout_mode = 0
+offset_right = 1664.0
+offset_bottom = 2880.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_xlhqa")
+
+[node name="NameLabel" type="Label" parent="SubViewport/CardUi"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 123.0
+offset_top = 42.0
+offset_right = 182.0
+offset_bottom = 65.0
+grow_horizontal = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_u01fu")
+theme_override_font_sizes/font_size = 22
+text = "sdfgsdgsdfg"
+
+[node name="AbilityLabel" type="Label" parent="SubViewport/CardUi"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 44.0
+offset_top = 377.0
+offset_right = 294.0
+offset_bottom = 492.0
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_u01fu")
+theme_override_font_sizes/font_size = 28
+text = "sdfgsdfgs"
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.939613e-10, 0, -0.0012255013)
+shape = SubResource("BoxShape3D_u01fu")
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]

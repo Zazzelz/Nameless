@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://ctveppq7ho5lm"]
+
+[ext_resource type="Script" uid="uid://e7jj8brkry35" path="res://05_Cards/00_Card_Deck/CardData.gd" id="1_3yxfu"]
+
+[resource]
+script = ExtResource("1_3yxfu")
+card_name = "Penalty"
+description = "Oppenant suffers -2 to their roll"
+effect_type = "penalty"
+value = 2
+metadata/_custom_type_script = "uid://e7jj8brkry35"

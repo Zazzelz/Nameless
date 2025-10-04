@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://486v3hhhlv0m"]
+
+[ext_resource type="Script" uid="uid://ch86l6by6bwpq" path="res://02_Game_Manager/card_game_ui.gd" id="1_pputr"]
+
+[node name="CardGameUi" type="Node"]
+script = ExtResource("1_pputr")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="CardContainer" type="Control" parent="UI"]
+custom_minimum_size = Vector2(87, 149)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -168.0
+offset_right = 37.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="CardHolder" type="Node" parent="."]
+unique_name_in_owner = true

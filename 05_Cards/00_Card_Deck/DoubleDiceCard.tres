@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://desmj3ynwmiss"]
+
+[ext_resource type="Script" uid="uid://e7jj8brkry35" path="res://05_Cards/00_Card_Deck/CardData.gd" id="1_qxuk3"]
+
+[resource]
+script = ExtResource("1_qxuk3")
+card_name = "DoubleDice"
+description = "Roll two dice and use the sum"
+effect_type = "double_roll"
+metadata/_custom_type_script = "uid://e7jj8brkry35"

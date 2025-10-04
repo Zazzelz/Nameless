@@ -1,14 +1,44 @@
-[gd_scene load_steps=17 format=3 uid="uid://dg5aek5lbnfff"]
+[gd_scene load_steps=24 format=3 uid="uid://dg5aek5lbnfff"]
 
 [ext_resource type="Script" uid="uid://ci7ax5dvxffg5" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://kkav2wto3try" path="res://01_Dice_Roller/Dice.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://daqx4us6edws5" path="res://02_Game_Manager/game_manager.gd" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://baqln5fjq8iam" path="res://03_Player/player_first_person.gd" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://ia83oh5gcxdt" path="res://04_Enemies/Enemy01.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://bmkec8wsgf51g" path="res://00_Assets/03_Furniture/GameTable.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cn2x4xchlsso1" path="res://05_Cards/CardGameBoard.tscn" id="7_272bh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fq1o6"]
+font_size = 200
+font_color = Color(0.80784315, 0, 0.3764706, 1)
+outline_size = 10
+outline_color = Color(0.3882353, 0.023529412, 0.21568628, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hdlph"]
+font_size = 200
+font_color = Color(0.80784315, 0, 0.3764706, 1)
+outline_size = 10
+outline_color = Color(0.3882353, 0.023529412, 0.21568628, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_i4g87"]
+font_size = 200
+font_color = Color(0.80784315, 0, 0.3764706, 1)
+outline_size = 10
+outline_color = Color(0.38881788, 0.022393566, 0.21511653, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_t3j4k"]
+font_size = 50
+font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
+outline_size = 6
+outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+shadow_size = 20
+shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+shadow_offset = Vector2(6, 10)
 
 [sub_resource type="Theme" id="Theme_3mfio"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_h2yge"]
-font_size = 70
+font_size = 50
 font_color = Color(0.16462722, 0.4369686, 0.7311156, 1)
 outline_size = 6
 outline_color = Color(0.048223726, 0.1543639, 0.32718223, 1)
@@ -17,7 +47,7 @@ shadow_color = Color(0.043137256, 0.12156863, 0.2509804, 0.8509804)
 shadow_offset = Vector2(6, 10)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1bvp3"]
-font_size = 70
+font_size = 50
 font_color = Color(0.8045614, 0.26026928, 0.5270607, 1)
 outline_size = 6
 outline_color = Color(0.34055674, 0.13857624, 0.35152584, 1)
@@ -64,6 +94,108 @@ points = PackedVector3Array(-0.5, -0.5, 0, -0.49765074, -0.5, -0.049040705, -0.4
 [node name="Main" type="Node3D"]
 script = ExtResource("1_0xm2m")
 
+[node name="GameUi" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="OpponentUI" type="Label" parent="GameUi"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 260.0
+offset_bottom = 77.0
+theme_override_colors/font_color = Color(0.8039216, 0.25882354, 0.5254902, 1)
+theme_override_colors/font_shadow_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
+theme_override_colors/font_outline_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Opponent"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameUi/OpponentUI"]
+layout_mode = 1
+offset_left = -8.0
+offset_top = -40.0
+offset_right = 165.0
+offset_bottom = 233.0
+scale = Vector2(0.91999865, 0.64)
+
+[node name="Loss03" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "."
+label_settings = SubResource("LabelSettings_fq1o6")
+
+[node name="Loss02" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
+layout_mode = 2
+text = "."
+label_settings = SubResource("LabelSettings_hdlph")
+
+[node name="Loss01" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "."
+label_settings = SubResource("LabelSettings_i4g87")
+horizontal_alignment = 1
+
+[node name="PlayerUI" type="Label" parent="GameUi"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 528.0
+offset_right = 260.0
+offset_bottom = 597.0
+text = "Player"
+label_settings = SubResource("LabelSettings_t3j4k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameUi/PlayerUI"]
+layout_mode = 1
+offset_left = -8.0
+offset_top = -40.0
+offset_right = 165.0
+offset_bottom = 233.0
+scale = Vector2(0.91999865, 0.64)
+
+[node name="Loss03" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
+theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_font_sizes/font_size = 200
+text = "."
+
+[node name="Loss02" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
+theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_font_sizes/font_size = 200
+text = "."
+
+[node name="Loss01" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
+theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
+theme_override_font_sizes/font_size = 200
+text = "."
+
 [node name="GameManager" type="Control" parent="." groups=["Game_Manager"]]
 layout_mode = 3
 anchor_right = 5.6799974
@@ -79,37 +211,36 @@ script = ExtResource("3_h2yge")
 metadata/_edit_use_anchors_ = true
 
 [node name="PlayerRollResult" type="Label" parent="GameManager"]
-visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -0.6616211
-offset_top = -46.0
-offset_right = 0.3383789
-offset_bottom = -23.0
+offset_left = 38.226074
+offset_top = -104.00006
+offset_right = 555.2261
+offset_bottom = -8.000061
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1, 1.0140942)
+text = "Player Rolled: 4"
 label_settings = SubResource("LabelSettings_h2yge")
 
 [node name="OpponentRollResult" type="Label" parent="GameManager"]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 0.33544922
-offset_top = 22.0
-offset_right = 1.3354492
-offset_bottom = 45.0
+offset_left = 38.226074
+offset_top = 8.0
+offset_right = 686.2261
+offset_bottom = 104.0
 grow_horizontal = 2
+text = "Opponent Rolled: 5"
 label_settings = SubResource("LabelSettings_1bvp3")
 
 [node name="GameResult" type="Label" parent="GameManager"]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -122,6 +253,7 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+text = "Opponent Wins"
 label_settings = SubResource("LabelSettings_lquwl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -135,8 +267,10 @@ directional_shadow_max_distance = 61.0
 environment = SubResource("Environment_lquwl")
 
 [node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.0509593, 0, 2.0938597, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(0.38288084, 0, 0, 0, 1, 0, 0, 0, 0.7766292, 0, 0, 0)
 mesh = SubResource("BoxMesh_7mycd")
 surface_material_override/0 = SubResource("StandardMaterial3D_0xm2m")
 
@@ -145,15 +279,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2342925, 0)
 shape = SubResource("ConvexPolygonShape3D_272bh")
 
 [node name="Dice" parent="." groups=["Player_Dice"] instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7438326, 3.6354394, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1946497, 5.1659236, 0.7728815)
 dice_name = "Player"
 
 [node name="Dice2" parent="." groups=["Enemy_Dice"] instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.836082, 3.5487428, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0177904, 5.1156063, 0)
 dice_name = "Opponent"
 
 [node name="PlayerFirstPerson" type="CharacterBody3D" parent="."]
-transform = Transform3D(-0.24801032, 0, 5.994872, 0, 6, 0, -5.994872, 0, -0.24801032, 8.888036, 1.5240922, 0.16727734)
+transform = Transform3D(-0.24801032, 0, 5.994872, 0, 6, 0, -5.994872, 0, -0.24801032, 11.488844, 2.7733665, 0.16727734)
+visible = false
 script = ExtResource("4_1bvp3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerFirstPerson"]
@@ -165,3 +300,12 @@ shape = SubResource("ConvexPolygonShape3D_hhvye")
 [node name="Camera3D" type="Camera3D" parent="PlayerFirstPerson"]
 transform = Transform3D(1, 0, 0, 0, 0.9935402, 0.11348068, 0, -0.11348068, 0.9935402, 0.0637095, 0.66621125, -0.32100222)
 fov = 60.0
+
+[node name="Enemy01" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(1.838107, 1.6504648, 58.948257, -0.051439244, 58.976913, -1.6496629, -58.97134, 5.151378e-08, 1.8388265, -19.052732, 4.237769, -3.3167071)
+
+[node name="GameTable" parent="." instance=ExtResource("6_7mycd")]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, -2.7165859, 0)
+
+[node name="CardGameBoard" parent="." instance=ExtResource("7_272bh")]
+transform = Transform3D(3.2, 0, 0, 0, 3.2, 0, 0, 0, 3.2, 0.05211258, 4.274911, -0.16700363)

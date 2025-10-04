@@ -7,9 +7,13 @@ extends RigidBody3D
 
 @export var dice_name: String = "Dice"
 var is_rolling: bool = false
+var has_reported: bool = false
+var can_report: bool = false
 
 func roll():
 	is_rolling = true
+	has_reported = false
+	can_report = true  # now this die can report
 	sleeping = false
 	global_position = initial_position
 	linear_velocity = Vector3.ZERO
@@ -23,15 +27,13 @@ func roll():
 	apply_torque_impulse(Vector3.ONE * 0.09)
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		opponent_result_label.hide()
-		player_result_label.hide()
-		result_label.hide()
-		roll()
-	if sleeping and is_rolling:
+	if sleeping and is_rolling and not has_reported and can_report:
+		has_reported = true
 		is_rolling = false
+		can_report = false
+		print("Dice finished reporting: ", dice_name, " at frame: ", Engine.get_frames_drawn())
 		# Notify GameManager to check results
-		get_tree().get_first_node_in_group("Game_Manager").check_results()
+		get_tree().get_first_node_in_group("Game_Manager").dice_finished()
 
 func get_roll_value():
 	var world_up = Vector3.UP

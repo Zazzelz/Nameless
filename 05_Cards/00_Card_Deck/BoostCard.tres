@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://c550w1qmod5ih"]
+
+[ext_resource type="Script" uid="uid://e7jj8brkry35" path="res://05_Cards/00_Card_Deck/CardData.gd" id="1_81aan"]
+
+[resource]
+script = ExtResource("1_81aan")
+card_name = "Boost"
+description = "Adds +2 to your dice roll"
+effect_type = "boost"
+value = 2
+metadata/_custom_type_script = "uid://e7jj8brkry35"

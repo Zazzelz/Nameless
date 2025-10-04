@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://c5va3q6pnb7ph"]
+
+[ext_resource type="Script" uid="uid://e7jj8brkry35" path="res://05_Cards/00_Card_Deck/CardData.gd" id="1_ncuep"]
+
+[resource]
+script = ExtResource("1_ncuep")
+card_name = "Disadvantage"
+description = "Opponent rolls twice and takes the lower result"
+effect_type = "disadvantage"
+metadata/_custom_type_script = "uid://e7jj8brkry35"

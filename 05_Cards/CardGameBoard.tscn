@@ -1,0 +1,167 @@
+[gd_scene load_steps=14 format=3 uid="uid://cn2x4xchlsso1"]
+
+[ext_resource type="Script" uid="uid://hk1q31jmk3d3" path="res://05_Cards/OpponentDeckManager.gd" id="1_5qeed"]
+
+[sub_resource type="GDScript" id="GDScript_5qeed"]
+resource_name = "CardGameBoardManager"
+script/source = "extends Node
+
+@onready var player_deck_manager = $PlayerDeckManager
+@onready var player_deck_zone = $PlayerDeckManager/PlayerDeckZone
+@onready var opponent_deck_manager = $OpponentDeckManager
+@onready var opponent_deck_zone = $OpponentDeckManager/OpponentDeckZone
+
+func _ready():
+	for i in range(5):
+		deal_card_to_playerDeck()
+		deal_card_to_opponentDeck()
+		
+func deal_card_to_playerDeck():
+	var card_data = player_deck_manager.draw_card()
+	if card_data:
+		var card = preload(\"res://05_Cards/3DCard.tscn\").instantiate()
+		card.set_card_data(card_data)
+		player_deck_zone.add_child(card)
+
+		var deck_zone = $PlayerDeckManager/PlayerDeckZone
+		var index = player_deck_zone.get_child_count() - 1
+		spawn_card(card, deck_zone, index)
+
+func deal_card_to_opponentDeck():
+	var card_data = opponent_deck_manager.draw_card()
+	if card_data:
+		var card = preload(\"res://05_Cards/3DCard.tscn\").instantiate()
+		card.set_card_data(card_data)
+		opponent_deck_zone.add_child(card)
+
+		var deck_zone = $OpponentDeckManager/OpponentDeckZone
+		var index = opponent_deck_zone.get_child_count() - 1
+		spawn_card(card, deck_zone, index)
+	
+func spawn_card(card: Node3D, target_zone: Node3D, index: int):
+	var stack_offset = Vector3(0, index * 0.002, 0)  # Slight vertical offset
+	card.position = stack_offset  # Local to target_zone
+	card.rotation_degrees = Vector3(90, 180, 0)
+	card.scale = Vector3(1, 1, 1.1)
+	print(\"Spawning card at index:\", index)
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5qeed"]
+sky_top_color = Color(0.6472133, 0.33600426, 0.42641455, 1)
+sky_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+ground_bottom_color = Color(0.37477, 0.3236336, 0.26618484, 1)
+ground_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+
+[sub_resource type="Sky" id="Sky_0ogl0"]
+sky_material = SubResource("ProceduralSkyMaterial_5qeed")
+
+[sub_resource type="Environment" id="Environment_0nui2"]
+background_mode = 2
+sky = SubResource("Sky_0ogl0")
+
+[sub_resource type="GDScript" id="GDScript_0ogl0"]
+resource_name = "PlayerDeckManager"
+script/source = "extends Node
+
+var deck: Array[CardData] = []
+
+func _ready():
+	load_deck()
+	shuffle_deck()
+
+func load_deck():
+	deck.clear()
+	deck.append(preload(\"res://05_Cards/00_Card_Deck/AdvantageCard.tres\"))
+	deck.append(preload(\"res://05_Cards/00_Card_Deck/PenaltyCard.tres\"))
+	deck.append(preload(\"res://05_Cards/00_Card_Deck/DisadvantageCard.tres\"))
+	deck.append(preload(\"res://05_Cards/00_Card_Deck/DoubleDiceCard.tres\"))
+	deck.append(preload(\"res://05_Cards/00_Card_Deck/BoostCard.tres\"))
+
+
+func shuffle_deck():
+	deck.shuffle()
+
+func draw_card() -> CardData:
+	if deck.size() > 0:
+		return deck.pop_front()
+	return null
+"
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0ogl0"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0nui2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_soa20"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h3cqh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5qeed"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1jc0c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ga7t"]
+transparency = 1
+
+[node name="CardGameBoard" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4880059, 0)
+script = SubResource("GDScript_5qeed")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0nui2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 0.64705884, 0.84705883, 1)
+light_energy = 3.75
+shadow_enabled = true
+directional_shadow_max_distance = 61.0
+
+[node name="PlayerDeckManager" type="Node" parent="."]
+script = SubResource("GDScript_0ogl0")
+
+[node name="PlayerDeckZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(0.280369, 0, 0, 0, 1, 0, 0, 0, 0.5165179, 1.4886067, -1.4230282, -1.4800596)
+
+[node name="PlayerHandZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(1, 0, 0, 0, 0.4131906, 0, 0, 0, 0.025277097, 0.05289483, -0.7846841, -2.5972638)
+
+[node name="PlayerPlayZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.76572955, 0, -1.498869, -0.49445915)
+
+[node name="PlayerDiscardZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(0.493375, 0, 0, 0, 0.08271527, 0, 0, 0, 0.69599247, -0.870379, -2.2336855, 0.16978359)
+
+[node name="OpponentDeckManager" type="Node" parent="."]
+script = ExtResource("1_5qeed")
+
+[node name="OpponentDeckZone" type="Node3D" parent="OpponentDeckManager"]
+transform = Transform3D(0.280369, 0, 0, 0, 1, 0, 0, 0, 0.5165179, -1.4959795, -1.4230282, 1.3696303)
+
+[node name="OpponentHandZone" type="Node3D" parent="OpponentDeckManager"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="OpponentDeckManager/OpponentHandZone"]
+transform = Transform3D(-0.57882786, -0.027483325, 0.0033706925, 0, 1.0843834, 0.12533942, -0.0151166795, 1.0523549, -0.12906611, -0.064440966, 0.6881094, 1.9967096)
+visible = false
+mesh = SubResource("PlaneMesh_0ogl0")
+
+[node name="OpponentPlayZone" type="Node3D" parent="OpponentDeckManager"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="OpponentDeckManager/OpponentPlayZone"]
+transform = Transform3D(0.7623613, 0, 0, 0, 0.68005776, 0, 0, 0, 0.4694428, -0.036006242, 0.039113462, 1.1664006)
+visible = false
+mesh = SubResource("PlaneMesh_0nui2")
+surface_material_override/0 = SubResource("StandardMaterial3D_soa20")
+
+[node name="OpponentDiscardZone" type="Node3D" parent="OpponentDeckManager"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="OpponentDeckManager/OpponentDiscardZone"]
+transform = Transform3D(0.24755967, 0, 0, 0, 0.76046574, 0, 0, 0, 0.45311674, 1.3086966, 0.033838153, 1.2612529)
+visible = false
+mesh = SubResource("PlaneMesh_h3cqh")
+surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.5385497, 0, 0, 0, -0.061831117, 0, 0, 0, 3.5785403, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_1jc0c")
+surface_material_override/0 = SubResource("StandardMaterial3D_4ga7t")
