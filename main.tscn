@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dg5aek5lbnfff"]
+[gd_scene load_steps=23 format=3 uid="uid://dg5aek5lbnfff"]
 
 [ext_resource type="Script" uid="uid://ci7ax5dvxffg5" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://kkav2wto3try" path="res://01_Dice_Roller/Dice.tscn" id="1_ig7tw"]
@@ -82,9 +82,6 @@ size = Vector3(10, 0.5, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
 albedo_color = Color(0.070373885, 0.23501825, 0.22565818, 1)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_272bh"]
-points = PackedVector3Array(-5, -0.5, -5, -5, 0.5, -5, 5, -0.5, -5, -5, -0.5, 5, -5, 0.5, 5, 5, 0.5, -5, 5, -0.5, 5, 5, 0.5, 5)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5rmlc"]
 
@@ -257,26 +254,23 @@ text = "Opponent Wins"
 label_settings = SubResource("LabelSettings_lquwl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, -5.1838603, 4.182776, 9.697296)
 light_color = Color(0.89873177, 0.74554026, 0.57757014, 1)
-light_energy = 11.428
+light_energy = 4.665
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 1.814
 shadow_enabled = true
 directional_shadow_max_distance = 61.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lquwl")
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.0509593, 0, 2.0938597, 0)
+[node name="Ground" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(0.38288084, 0, 0, 0, 1, 0, 0, 0, 0.7766292, 0, 0, 0)
+transform = Transform3D(0.38288084, 0, 0, 0, 1, 0, 0, 0, 0.8457107, 0, 2.1316938, 0.27938533)
 mesh = SubResource("BoxMesh_7mycd")
 surface_material_override/0 = SubResource("StandardMaterial3D_0xm2m")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2342925, 0)
-shape = SubResource("ConvexPolygonShape3D_272bh")
 
 [node name="Dice" parent="." groups=["Player_Dice"] instance=ExtResource("1_ig7tw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1946497, 5.1659236, 0.7728815)
@@ -287,8 +281,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0177904, 5.1156063, 0)
 dice_name = "Opponent"
 
 [node name="PlayerFirstPerson" type="CharacterBody3D" parent="."]
-transform = Transform3D(-0.24801032, 0, 5.994872, 0, 6, 0, -5.994872, 0, -0.24801032, 11.488844, 2.7733665, 0.16727734)
-visible = false
+transform = Transform3D(0.031575114, -0.74769586, 5.9531474, -0.004228328, 5.9532256, 0.7477278, -5.9999146, -0.008130245, 0.030802071, 13.730008, 3.0448422, 0.16727734)
 script = ExtResource("4_1bvp3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerFirstPerson"]
@@ -308,4 +301,4 @@ transform = Transform3D(1.838107, 1.6504648, 58.948257, -0.051439244, 58.976913,
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, -2.7165859, 0)
 
 [node name="CardGameBoard" parent="." instance=ExtResource("7_272bh")]
-transform = Transform3D(3.2, 0, 0, 0, 3.2, 0, 0, 0, 3.2, 0.05211258, 4.274911, -0.16700363)
+transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 2.8221064, 0)

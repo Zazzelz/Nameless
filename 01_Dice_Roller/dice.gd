@@ -26,7 +26,7 @@ func roll():
 	)
 	apply_torque_impulse(Vector3.ONE * 0.09)
 
-func _process(delta):
+func _process(_delta):
 	if sleeping and is_rolling and not has_reported and can_report:
 		has_reported = true
 		is_rolling = false

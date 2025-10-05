@@ -27,7 +27,7 @@ func _ready():
 	
 	_update_hp_ui()
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		opponent_result_label.hide()
 		player_result_label.hide()

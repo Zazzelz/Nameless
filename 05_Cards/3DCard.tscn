@@ -13,16 +13,18 @@ script/source = "extends Node3D
 
 var card_data: CardData
 var tween: Tween
+var base_position: Vector3  # Local position anchor
+
+signal card_clicked(card: Node3D)
 
 func _ready():
-	# If card_data was set before _ready, apply it now
 	if card_data:
 		apply_card_data()
-
+	base_position = Vector3(global_transform.origin.x, global_transform.origin.y, global_transform.origin.z)
+	$Area3D.connect(\"input_event\", Callable(self, \"_on_area_input\"))
+	
 func set_card_data(data: CardData):
 	card_data = data
-
-	# If _ready has already run, apply immediately
 	if is_inside_tree():
 		apply_card_data()
 
@@ -31,7 +33,7 @@ func apply_card_data():
 		push_error(\"SubViewport not found\")
 		return
 
-	var card_ui = sub_viewport.get_child(0) # Get the root of the internal scene
+	var card_ui = sub_viewport.get_child(0)
 	if not card_ui:
 		push_error(\"CardUI not found inside SubViewport\")
 		return
@@ -55,23 +57,34 @@ func apply_card_data():
 		icon.texture = card_data.icon_texture
 	elif not icon:
 		push_warning(\"Icon node not found in CardUI\")
-		
+
 func flip_card():
 	rotation_degrees.y += 180
 
+func _on_area_input(camera, event, click_position, normal, shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		card_clicked.emit(self)
+		print(\"Card was clicked!\")
+
 func _on_area_3d_mouse_entered() -> void:
+	if get_parent().name == \"PlayerDeckZone\":
+		return
+
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(self, \"position:y\", position.y + 0.2, 0.2)\\
+	tween.tween_property(self, \"position\", Vector3(base_position.x, base_position.y + 0.2, base_position.z), 0.2)\\
 		.set_trans(Tween.TRANS_SINE)\\
 		.set_ease(Tween.EASE_OUT)
 
 func _on_area_3d_mouse_exited() -> void:
+	if get_parent().name == \"PlayerDeckZone\":
+		return
+
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(self, \"position:y\", position.y - 0.2, 0.2)\\
+	tween.tween_property(self, \"position\", base_position, 0.2)\\
 		.set_trans(Tween.TRANS_SINE)\\
 		.set_ease(Tween.EASE_IN)
 "
@@ -94,7 +107,7 @@ albedo_texture = ExtResource("2_u01fu")
 size = Vector3(1, 1, 0.02154541)
 
 [node name="3dCard" type="Node3D"]
-transform = Transform3D(1.1464113e-15, 1, -4.371139e-08, 2.6226834e-08, -4.371139e-08, -1, -0.6, 0, -4.371139e-08, 0, 0.029034138, 0)
+transform = Transform3D(0.6798824, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 script = SubResource("GDScript_eilbg")
 
 [node name="FrontFace" type="MeshInstance3D" parent="."]
@@ -152,10 +165,12 @@ theme_override_font_sizes/font_size = 28
 text = "sdfgsdfgs"
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0017294884)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.939613e-10, 0, -0.0012255013)
 shape = SubResource("BoxShape3D_u01fu")
 
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
 [connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
 [connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]

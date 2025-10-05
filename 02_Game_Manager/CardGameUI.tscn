@@ -1,9 +1,19 @@
 [gd_scene load_steps=2 format=3 uid="uid://486v3hhhlv0m"]
 
-[ext_resource type="Script" uid="uid://ch86l6by6bwpq" path="res://02_Game_Manager/card_game_ui.gd" id="1_pputr"]
+[sub_resource type="GDScript" id="GDScript_jm7kv"]
+script/source = "extends Node
+
+
+
+func _ready():
+	pass
+
+func spawn_fanned_hand(num_cards: int):
+	pass
+"
 
 [node name="CardGameUi" type="Node"]
-script = ExtResource("1_pputr")
+script = SubResource("GDScript_jm7kv")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
