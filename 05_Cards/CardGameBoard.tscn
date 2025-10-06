@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cn2x4xchlsso1"]
+[gd_scene load_steps=20 format=3 uid="uid://cn2x4xchlsso1"]
 
 [ext_resource type="Script" uid="uid://hk1q31jmk3d3" path="res://05_Cards/OpponentDeckManager.gd" id="1_5qeed"]
 
@@ -141,6 +141,19 @@ func _on_card_clicked(card: Node3D):
 		print(\"Clicked card is not the top card:\", card.name)
 "
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5qeed"]
+sky_top_color = Color(0.6472133, 0.33600426, 0.42641455, 1)
+sky_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+ground_bottom_color = Color(0.37477, 0.3236336, 0.26618484, 1)
+ground_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+
+[sub_resource type="Sky" id="Sky_0ogl0"]
+sky_material = SubResource("ProceduralSkyMaterial_5qeed")
+
+[sub_resource type="Environment" id="Environment_0nui2"]
+background_mode = 2
+sky = SubResource("Sky_0ogl0")
+
 [sub_resource type="GDScript" id="GDScript_0ogl0"]
 resource_name = "PlayerDeckManager"
 script/source = "extends Node3D
@@ -218,6 +231,16 @@ points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
 [node name="CardGameBoard" type="Node3D"]
 transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 0, 0)
 script = SubResource("GDScript_5qeed")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0nui2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 0.64705884, 0.84705883, 1)
+light_energy = 3.75
+shadow_enabled = true
+directional_shadow_max_distance = 61.0
 
 [node name="PlayerDeckManager" type="Node3D" parent="."]
 script = SubResource("GDScript_0ogl0")
@@ -331,3 +354,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OpponentDeckManager/OpponentDiscardZone/ZoneMesh/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_jmnq7")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.99975824, 0, 0.021989241, 0, 1, 0, -0.021989241, 0, -0.99975824, -0.122471556, 0.6975154, -6.310117)

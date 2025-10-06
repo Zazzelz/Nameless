@@ -1,0 +1,13 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dfjydhcfq6gmv"]
+
+[ext_resource type="FontFile" uid="uid://dnh7h7xgibyjj" path="res://00_Assets/04_Fonts/friendlyscribbles/friendlyscribbles.ttf" id="1_cdkyw"]
+
+[resource]
+font = ExtResource("1_cdkyw")
+font_size = 70
+font_color = Color(0.7092744, 0.37428197, 0.7277284, 1)
+outline_size = 10
+outline_color = Color(0.34122133, 0.13727713, 0.352987, 1)
+shadow_size = 20
+shadow_color = Color(0.34117648, 0.13725491, 0.3529412, 0.8156863)
+shadow_offset = Vector2(6, 2)

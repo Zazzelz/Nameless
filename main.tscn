@@ -1,67 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://dg5aek5lbnfff"]
+[gd_scene load_steps=15 format=3 uid="uid://dg5aek5lbnfff"]
 
 [ext_resource type="Script" uid="uid://ci7ax5dvxffg5" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://kkav2wto3try" path="res://01_Dice_Roller/Dice.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://daqx4us6edws5" path="res://02_Game_Manager/game_manager.gd" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cht5lmxux8f2j" path="res://02_Game_Manager/GameUI.tscn" id="2_272bh"]
 [ext_resource type="Script" uid="uid://baqln5fjq8iam" path="res://03_Player/player_first_person.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://ia83oh5gcxdt" path="res://04_Enemies/Enemy01.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bmkec8wsgf51g" path="res://00_Assets/03_Furniture/GameTable.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cn2x4xchlsso1" path="res://05_Cards/CardGameBoard.tscn" id="7_272bh"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_fq1o6"]
-font_size = 200
-font_color = Color(0.80784315, 0, 0.3764706, 1)
-outline_size = 10
-outline_color = Color(0.3882353, 0.023529412, 0.21568628, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_hdlph"]
-font_size = 200
-font_color = Color(0.80784315, 0, 0.3764706, 1)
-outline_size = 10
-outline_color = Color(0.3882353, 0.023529412, 0.21568628, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_i4g87"]
-font_size = 200
-font_color = Color(0.80784315, 0, 0.3764706, 1)
-outline_size = 10
-outline_color = Color(0.38881788, 0.022393566, 0.21511653, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_t3j4k"]
-font_size = 50
-font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
-outline_size = 6
-outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-shadow_size = 20
-shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-shadow_offset = Vector2(6, 10)
-
-[sub_resource type="Theme" id="Theme_3mfio"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_h2yge"]
-font_size = 50
-font_color = Color(0.16462722, 0.4369686, 0.7311156, 1)
-outline_size = 6
-outline_color = Color(0.048223726, 0.1543639, 0.32718223, 1)
-shadow_size = 20
-shadow_color = Color(0.043137256, 0.12156863, 0.2509804, 0.8509804)
-shadow_offset = Vector2(6, 10)
-
-[sub_resource type="LabelSettings" id="LabelSettings_1bvp3"]
-font_size = 50
-font_color = Color(0.8045614, 0.26026928, 0.5270607, 1)
-outline_size = 6
-outline_color = Color(0.34055674, 0.13857624, 0.35152584, 1)
-shadow_size = 20
-shadow_color = Color(0.21821943, 0.045991987, 0.19833186, 0.8980392)
-shadow_offset = Vector2(6, 10)
-
-[sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
-font_size = 90
-font_color = Color(0, 0, 0, 1)
-outline_size = 6
-shadow_size = 20
-shadow_color = Color(0, 0, 0, 0.77254903)
-shadow_offset = Vector2(6, 10)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h2yge"]
 sky_top_color = Color(0.6284538, 0.81731653, 0.97334653, 1)
@@ -91,167 +36,9 @@ points = PackedVector3Array(-0.5, -0.5, 0, -0.49765074, -0.5, -0.049040705, -0.4
 [node name="Main" type="Node3D"]
 script = ExtResource("1_0xm2m")
 
-[node name="GameUi" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="OpponentUI" type="Label" parent="GameUi"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 8.0
-offset_right = 260.0
-offset_bottom = 77.0
-theme_override_colors/font_color = Color(0.8039216, 0.25882354, 0.5254902, 1)
-theme_override_colors/font_shadow_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
-theme_override_colors/font_outline_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
-theme_override_constants/shadow_offset_x = 6
-theme_override_constants/shadow_offset_y = 6
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_outline_size = 5
-theme_override_font_sizes/font_size = 50
-text = "Opponent"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="GameUi/OpponentUI"]
-layout_mode = 1
-offset_left = -8.0
-offset_top = -40.0
-offset_right = 165.0
-offset_bottom = 233.0
-scale = Vector2(0.91999865, 0.64)
-
-[node name="Loss03" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-text = "."
-label_settings = SubResource("LabelSettings_fq1o6")
-
-[node name="Loss02" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
-layout_mode = 2
-text = "."
-label_settings = SubResource("LabelSettings_hdlph")
-
-[node name="Loss01" type="Label" parent="GameUi/OpponentUI/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "."
-label_settings = SubResource("LabelSettings_i4g87")
-horizontal_alignment = 1
-
-[node name="PlayerUI" type="Label" parent="GameUi"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 16.0
-offset_top = 528.0
-offset_right = 260.0
-offset_bottom = 597.0
-text = "Player"
-label_settings = SubResource("LabelSettings_t3j4k")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="GameUi/PlayerUI"]
-layout_mode = 1
-offset_left = -8.0
-offset_top = -40.0
-offset_right = 165.0
-offset_bottom = 233.0
-scale = Vector2(0.91999865, 0.64)
-
-[node name="Loss03" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
-theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_font_sizes/font_size = 200
-text = "."
-
-[node name="Loss02" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
-theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_font_sizes/font_size = 200
-text = "."
-
-[node name="Loss01" type="Label" parent="GameUi/PlayerUI/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.16470589, 0.43529412, 0.7294118, 1)
-theme_override_colors/font_shadow_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_colors/font_outline_color = Color(0.047058824, 0.15294118, 0.3254902, 1)
-theme_override_font_sizes/font_size = 200
-text = "."
-
-[node name="GameManager" type="Control" parent="." groups=["Game_Manager"]]
-layout_mode = 3
-anchor_right = 5.6799974
-anchor_bottom = 1.0
-offset_right = -5391.357
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.0028881, 1)
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_3mfio")
-script = ExtResource("3_h2yge")
-metadata/_edit_use_anchors_ = true
-
-[node name="PlayerRollResult" type="Label" parent="GameManager"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 38.226074
-offset_top = -104.00006
-offset_right = 555.2261
-offset_bottom = -8.000061
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(1, 1.0140942)
-text = "Player Rolled: 4"
-label_settings = SubResource("LabelSettings_h2yge")
-
-[node name="OpponentRollResult" type="Label" parent="GameManager"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 38.226074
-offset_top = 8.0
-offset_right = 686.2261
-offset_bottom = 104.0
-grow_horizontal = 2
-text = "Opponent Rolled: 5"
-label_settings = SubResource("LabelSettings_1bvp3")
-
-[node name="GameResult" type="Label" parent="GameManager"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Opponent Wins"
-label_settings = SubResource("LabelSettings_lquwl")
+[node name="GameUi" parent="CanvasLayer" instance=ExtResource("2_272bh")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, -5.1838603, 4.182776, 9.697296)
@@ -281,7 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0177904, 5.1156063, 0)
 dice_name = "Opponent"
 
 [node name="PlayerFirstPerson" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.031575114, -0.74769586, 5.9531474, -0.004228328, 5.9532256, 0.7477278, -5.9999146, -0.008130245, 0.030802071, 13.730008, 3.0448422, 0.16727734)
+transform = Transform3D(0.031575114, -0.74769586, 5.9531474, -0.004228328, 5.9532256, 0.7477278, -5.9999146, -0.008130245, 0.030802071, 14.132452, 5.4984, 0.16727734)
 script = ExtResource("4_1bvp3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerFirstPerson"]

@@ -1,9 +1,6 @@
 extends RigidBody3D
 
 @onready var initial_position = global_position
-@onready var player_result_label = $"../GameManager/PlayerRollResult"
-@onready var opponent_result_label = $"../GameManager/OpponentRollResult"
-@onready var result_label = $"../GameManager/GameResult"
 
 @export var dice_name: String = "Dice"
 var is_rolling: bool = false
@@ -33,7 +30,7 @@ func _process(_delta):
 		can_report = false
 		print("Dice finished reporting: ", dice_name, " at frame: ", Engine.get_frames_drawn())
 		# Notify GameManager to check results
-		get_tree().get_first_node_in_group("Game_Manager").dice_finished()
+		get_tree().get_first_node_in_group("GameUI").dice_finished()
 
 func get_roll_value():
 	var world_up = Vector3.UP
