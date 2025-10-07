@@ -1,6 +1,6 @@
 # Nameless – Prototype
 
-![Project Logo](./00_Assets/logo.png)  <!-- Add your logo here -->
+![Project Logo](./00_Assets/00_Concept_Art/NamelessBanner01.png)  <!-- Add your logo here -->
 
 **Version:** 1.2  
 **Author:** Beth Hooper  
