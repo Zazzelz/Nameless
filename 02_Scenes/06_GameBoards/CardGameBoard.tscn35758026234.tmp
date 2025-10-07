@@ -1,0 +1,171 @@
+[gd_scene load_steps=20 format=3 uid="uid://dbj3itfddjudw"]
+
+[ext_resource type="Script" uid="uid://gqj55rwtu3vx" path="res://03_Scripts/02_Core/01_GameBoard/CardGameManager.gd" id="1_leb8e"]
+[ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="2_3ivdm"]
+[ext_resource type="Script" uid="uid://kg2ko3okrkdi" path="res://03_Scripts/02_Core/01_GameBoard/ZoneManager.gd" id="2_q3he7"]
+[ext_resource type="Script" uid="uid://dqx8am220r4dr" path="res://03_Scripts/05_Cards/CardFactory.gd" id="3_8f1cp"]
+[ext_resource type="Script" uid="uid://cmxjhbqs0m7a3" path="res://03_Scripts/02_Core/01_GameBoard/DeckZone.gd" id="5_q3he7"]
+[ext_resource type="Script" uid="uid://0mcfubmafmqh" path="res://03_Scripts/02_Core/01_GameBoard/HandZone.gd" id="6_8f1cp"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h3cqh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5qeed"]
+albedo_color = Color(0.46468484, 0.20130628, 0.47975856, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5qeed"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5qeed"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0nui2"]
+albedo_color = Color(0.101960786, 0.23137255, 0.41960785, 0.78431374)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0ogl0"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0nui2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_soa20"]
+albedo_color = Color(0.101960786, 0.23137255, 0.41960785, 0.81960785)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0nui2"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_soa20"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4ga7t"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5kopi"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jmnq7"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[node name="CardGameBoard" type="Node3D"]
+transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 0, 0)
+script = ExtResource("1_leb8e")
+
+[node name="ZoneManager" type="Node" parent="."]
+script = ExtResource("2_q3he7")
+
+[node name="CardFactory" type="Node" parent="."]
+script = ExtResource("3_8f1cp")
+
+[node name="PlayerDeckManager" type="Node3D" parent="."]
+script = ExtResource("2_3ivdm")
+
+[node name="PlayerDeckZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(0.47869134, 0, 5.820766e-11, 0, 0.0057185064, 0, 8.731149e-11, 0, 0.7001581, 2.3533528, 0.0052782446, -3.4724948)
+script = ExtResource("5_q3he7")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="PlayerDeckManager/PlayerDeckZone"]
+transform = Transform3D(0.9031611, 0, 0, 0, 0.7604651, 0, 2.3283064e-10, 0, 1.0369885, 0.93233585, 2.6461663, -0.46320677)
+mesh = SubResource("PlaneMesh_h3cqh")
+surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlayerDeckManager/PlayerDeckZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDeckManager/PlayerDeckZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5qeed")
+
+[node name="PlayerHandZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(15.186993, 0, 5.684342e-14, 0, 0.3712303, -0.00039163744, -9.313226e-10, 0.25077525, 0.00057975284, 0.05289483, 0.63278216, -5.175069)
+script = ExtResource("6_8f1cp")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="PlayerDeckManager/PlayerHandZone"]
+transform = Transform3D(0.07897029, -7.2759576e-11, 1.3322676e-14, -5.820766e-11, 0.59679705, -2.0859429e-11, 1.6391277e-07, -5.8586927e-05, -0.084019266, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_5qeed")
+surface_material_override/0 = SubResource("StandardMaterial3D_0nui2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlayerDeckManager/PlayerHandZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDeckManager/PlayerHandZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_0ogl0")
+
+[node name="PlayerPlayZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5266729, 0.033677578, -0.09146917, -2.2143562)
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="PlayerDeckManager/PlayerPlayZone"]
+transform = Transform3D(2.0270681, 0, 0, 0, 0.9694017, 0, 0, 0, 1.9802719, -0.036006242, 0.12588614, -1.9915531)
+mesh = SubResource("PlaneMesh_0nui2")
+surface_material_override/0 = SubResource("StandardMaterial3D_soa20")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlayerDeckManager/PlayerPlayZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDeckManager/PlayerPlayZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_0nui2")
+
+[node name="PlayerDiscardZone" type="Node3D" parent="PlayerDeckManager"]
+transform = Transform3D(0.493375, 0, 1.1641532e-10, 0, 0.08271527, 0, 0, 0, 0.77232546, -3.1803033, -0.19924867, -3.751998)
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="PlayerDeckManager/PlayerDiscardZone"]
+transform = Transform3D(0.9031608, 0, 0, 0, 0.76046544, 0, 0, 0, 1.1473466, 0.92695236, 2.6461656, -0.123037815)
+mesh = SubResource("PlaneMesh_h3cqh")
+surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PlayerDeckManager/PlayerDiscardZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDeckManager/PlayerDiscardZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_soa20")
+
+[node name="OpponentDeckManager" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031615258, 0, 3.77359)
+script = ExtResource("2_3ivdm")
+
+[node name="OpponentDeckZone" type="Node3D" parent="OpponentDeckManager"]
+transform = Transform3D(0.47869116, 0, 5.820766e-11, 0, 0.0057185064, 0, 5.820766e-11, 0, 0.7001581, -3.1776967, 0.0052782446, 0.6578281)
+script = ExtResource("5_q3he7")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentDeckZone"]
+transform = Transform3D(0.9031611, 0, 0, 0, 0.7604651, 0, 2.3283064e-10, 0, 1.0369885, 0.93233585, 2.6461663, -0.46320677)
+mesh = SubResource("PlaneMesh_h3cqh")
+surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="OpponentDeckManager/OpponentDeckZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpponentDeckManager/OpponentDeckZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5qeed")
+
+[node name="OpponentHandZone" type="Node3D" parent="OpponentDeckManager"]
+transform = Transform3D(2.8379114, 0, -1.7053026e-13, 0, -0.42148125, -0.0002335146, 0, 0.14964347, -0.0006577098, 0.056146048, 0.63278216, 1.3965585)
+script = ExtResource("6_8f1cp")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentHandZone"]
+mesh = SubResource("BoxMesh_5qeed")
+surface_material_override/0 = SubResource("StandardMaterial3D_0nui2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="OpponentDeckManager/OpponentHandZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpponentDeckManager/OpponentHandZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_4ga7t")
+
+[node name="OpponentPlayZone" type="Node3D" parent="OpponentDeckManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5266729, 0.037063327, -0.09146917, 0.66525245)
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentPlayZone"]
+transform = Transform3D(2.0270681, 0, 0, 0, 0.9694017, 0, 0, 0, 1.9802719, -0.036006242, 0.12588614, -1.9915531)
+mesh = SubResource("PlaneMesh_0nui2")
+surface_material_override/0 = SubResource("StandardMaterial3D_soa20")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="OpponentDeckManager/OpponentPlayZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpponentDeckManager/OpponentPlayZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5kopi")
+
+[node name="OpponentDiscardZone" type="Node3D" parent="OpponentDeckManager"]
+transform = Transform3D(0.28793052, 0, 1.1641532e-10, 0, 0.02238417, 0, 2.910383e-11, 0, 0.77232546, 2.4481766, -0.04880452, -0.77699447)
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentDiscardZone"]
+transform = Transform3D(1.5337864, 0, 0, 0, 0.76046544, 0, -1.4551915e-10, 0, 1.1473466, 1.4040947, 2.6461658, 1.2101607)
+mesh = SubResource("PlaneMesh_h3cqh")
+surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="OpponentDeckManager/OpponentDiscardZone/ZoneMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpponentDeckManager/OpponentDiscardZone/ZoneMesh/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_jmnq7")
+
+[connection signal="card_clicked_from_factory" from="CardFactory" to="." method="_on_card_factory_card_clicked_from_factory"]

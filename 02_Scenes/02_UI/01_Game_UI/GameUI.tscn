@@ -1,0 +1,179 @@
+[gd_scene load_steps=11 format=3 uid="uid://cht5lmxux8f2j"]
+
+[ext_resource type="LabelSettings" uid="uid://dfjydhcfq6gmv" path="res://01_Resources/01_Label_Styles/OpponentUISettings.tres" id="1_ips3y"]
+[ext_resource type="Script" uid="uid://ctqan8e2btn4f" path="res://03_Scripts/03_UI/LabelStyleManager.gd" id="2_1ck7o"]
+[ext_resource type="Texture2D" uid="uid://baict7dp0k62m" path="res://00_Assets/00_Concept_Art/HealthHeart.png" id="2_mrqdv"]
+[ext_resource type="LabelSettings" uid="uid://c38en4tc0p33f" path="res://01_Resources/01_Label_Styles/PlayerUIOutcomeSettings.tres" id="3_hskst"]
+[ext_resource type="LabelSettings" uid="uid://mjtb4bt0rl07" path="res://01_Resources/01_Label_Styles/PlayerUISettings.tres" id="3_y2m55"]
+[ext_resource type="Texture2D" uid="uid://b0gvxorv75x35" path="res://00_Assets/00_Concept_Art/HealthHeartblue.png" id="4_hskst"]
+[ext_resource type="Script" uid="uid://ca1wt3l84a6t" path="res://03_Scripts/03_UI/gameUI.gd" id="5_eyj78"]
+[ext_resource type="FontFile" uid="uid://dnh7h7xgibyjj" path="res://00_Assets/04_Fonts/friendlyscribbles/friendlyscribbles.ttf" id="6_4dy1t"]
+[ext_resource type="LabelSettings" uid="uid://cnk0qoojppekx" path="res://01_Resources/01_Label_Styles/OpponentUIOutcomeSettings.tres" id="8_eyj78"]
+[ext_resource type="LabelSettings" uid="uid://ctpucfab43fs0" path="res://01_Resources/01_Label_Styles/TieOutcomeSettings.tres" id="9_hskst"]
+
+[node name="GameUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("5_eyj78")
+
+[node name="LabelStyleManager" type="Node" parent="."]
+script = ExtResource("2_1ck7o")
+
+[node name="OutcomeLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -472.0
+offset_top = -44.0
+offset_right = 459.5
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.1584723, 0.15847233, 0.1584723, 1)
+theme_override_colors/font_shadow_color = Color(0.105882354, 0.105882354, 0.105882354, 0.8352941)
+theme_override_colors/font_outline_color = Color(0.5449743, 0.54497427, 0.54497427, 1)
+theme_override_fonts/font = ExtResource("6_4dy1t")
+theme_override_font_sizes/font_size = 70
+label_settings = ExtResource("9_hskst")
+
+[node name="OpponentCornerUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="OpponentUI" type="HBoxContainer" parent="OpponentCornerUI"]
+layout_mode = 0
+offset_left = -1104.0
+offset_top = 24.0
+offset_right = -4.0
+offset_bottom = 94.0
+size_flags_horizontal = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="OpponentCornerUI/OpponentUI"]
+layout_mode = 2
+theme_override_constants/margin_left = 800
+
+[node name="OpponentName" type="Label" parent="OpponentCornerUI/OpponentUI"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8039216, 0.25882354, 0.5254902, 1)
+theme_override_colors/font_shadow_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
+theme_override_colors/font_outline_color = Color(0.34117648, 0.13725491, 0.3529412, 1)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Opponent"
+label_settings = ExtResource("1_ips3y")
+
+[node name="MarginContainer2" type="MarginContainer" parent="OpponentCornerUI/OpponentUI"]
+layout_mode = 2
+
+[node name="OpponentHP" type="Control" parent="OpponentCornerUI/OpponentUI"]
+layout_mode = 2
+
+[node name="OpponentLoss03" type="Sprite2D" parent="OpponentCornerUI/OpponentUI/OpponentHP"]
+position = Vector2(-247.99994, 104)
+scale = Vector2(0.119998775, 0.119998775)
+texture = ExtResource("2_mrqdv")
+
+[node name="OpponentLoss02" type="Sprite2D" parent="OpponentCornerUI/OpponentUI/OpponentHP"]
+position = Vector2(-160, 104)
+scale = Vector2(0.119998775, 0.119998775)
+texture = ExtResource("2_mrqdv")
+
+[node name="OpponentLoss01" type="Sprite2D" parent="OpponentCornerUI/OpponentUI/OpponentHP"]
+position = Vector2(-72, 104)
+scale = Vector2(0.119998775, 0.119998775)
+texture = ExtResource("2_mrqdv")
+
+[node name="OpponentResult" type="HBoxContainer" parent="OpponentCornerUI"]
+layout_mode = 0
+offset_left = -1104.0
+offset_top = 176.0
+offset_right = 41.0
+offset_bottom = 226.0
+
+[node name="MarginContainer5" type="MarginContainer" parent="OpponentCornerUI/OpponentResult"]
+layout_mode = 2
+theme_override_constants/margin_right = 650
+
+[node name="OpponentRollResult" type="Label" parent="OpponentCornerUI/OpponentResult"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.7367223, 0.10612463, 0.64338434, 1)
+theme_override_colors/font_shadow_color = Color(0.2901961, 0.11372549, 0.3019608, 0.85882354)
+theme_override_colors/font_outline_color = Color(0.29215667, 0.11287861, 0.30251664, 1)
+theme_override_fonts/font = ExtResource("6_4dy1t")
+label_settings = ExtResource("8_eyj78")
+
+[node name="PlayerCornerUI" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.020833334
+anchor_top = 0.94135803
+anchor_right = 0.020833334
+anchor_bottom = 0.94135803
+offset_top = -50.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerUI" type="HBoxContainer" parent="PlayerCornerUI"]
+layout_mode = 0
+offset_right = 1145.0
+offset_bottom = 70.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerCornerUI/PlayerUI"]
+layout_mode = 2
+
+[node name="PlayerName" type="Label" parent="PlayerCornerUI/PlayerUI"]
+layout_mode = 2
+text = "Player"
+label_settings = ExtResource("3_y2m55")
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerCornerUI/PlayerUI"]
+layout_mode = 2
+
+[node name="PlayerHP" type="Control" parent="PlayerCornerUI/PlayerUI"]
+layout_mode = 2
+
+[node name="PlayerLoss03" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
+position = Vector2(-166.19917, -45.67932)
+scale = Vector2(0.12000245, 0.12000245)
+texture = ExtResource("4_hskst")
+
+[node name="PlayerLoss02" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
+position = Vector2(-86.19917, -45.67932)
+scale = Vector2(0.12000245, 0.12000245)
+texture = ExtResource("4_hskst")
+
+[node name="PlayerLoss01" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
+position = Vector2(-6.199173, -45.67932)
+scale = Vector2(0.12000245, 0.12000245)
+texture = ExtResource("4_hskst")
+
+[node name="PlayerResult" type="HBoxContainer" parent="PlayerCornerUI"]
+layout_mode = 0
+offset_top = -136.0
+offset_right = 55.0
+offset_bottom = -96.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerCornerUI/PlayerResult"]
+layout_mode = 2
+
+[node name="PlayerRollResult" type="Label" parent="PlayerCornerUI/PlayerResult"]
+layout_mode = 2
+label_settings = ExtResource("3_hskst")
