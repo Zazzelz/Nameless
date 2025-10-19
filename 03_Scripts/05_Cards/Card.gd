@@ -29,6 +29,11 @@ func _ready():
 	call_deferred("apply_card_data")
 
 func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int):
+	var game_ui := get_tree().get_nodes_in_group("GameUI")[0]
+	if not game_ui.card_input_enabled:
+		print("Card input is disabled during this phase.")
+		return
+	
 	# Handles mouse click and double-click events
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -43,6 +48,10 @@ func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: 
 			_on_card_double_clicked()
 
 func _on_card_double_clicked():
+	var game_ui := get_tree().get_nodes_in_group("GameUI")[0]
+	if not game_ui.card_input_enabled:
+		print("Card input is disabled during this phase.")
+		return
 	# Emits card_dropped signal if card is in a hand zone and hasn't been played
 	if not current_zone:
 		print("Double-click ignored — current_zone is null")

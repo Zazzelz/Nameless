@@ -42,9 +42,6 @@ script = ExtResource("1_0xm2m")
 [node name="GameUi" parent="CanvasLayer" instance=ExtResource("2_272bh")]
 process_mode = 3
 
-[node name="TurnManager" type="Node" parent="CanvasLayer"]
-script = ExtResource("8_docrm")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, -5.1838603, 4.182776, 9.697296)
 light_color = Color(0.89873177, 0.74554026, 0.57757014, 1)
@@ -99,3 +96,6 @@ transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, -2.7165859, 0)
 
 [node name="CardGameBoard" parent="." instance=ExtResource("7_3q361")]
 transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 2.8461485, 0)
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("8_docrm")

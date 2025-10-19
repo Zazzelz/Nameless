@@ -1,15 +1,44 @@
-[gd_scene load_steps=11 format=3 uid="uid://cht5lmxux8f2j"]
+[gd_scene load_steps=25 format=3 uid="uid://cht5lmxux8f2j"]
 
 [ext_resource type="LabelSettings" uid="uid://dfjydhcfq6gmv" path="res://01_Resources/01_Label_Styles/OpponentUISettings.tres" id="1_ips3y"]
 [ext_resource type="Script" uid="uid://ctqan8e2btn4f" path="res://03_Scripts/03_UI/LabelStyleManager.gd" id="2_1ck7o"]
 [ext_resource type="Texture2D" uid="uid://baict7dp0k62m" path="res://00_Assets/00_Concept_Art/HealthHeart.png" id="2_mrqdv"]
 [ext_resource type="LabelSettings" uid="uid://c38en4tc0p33f" path="res://01_Resources/01_Label_Styles/PlayerUIOutcomeSettings.tres" id="3_hskst"]
 [ext_resource type="LabelSettings" uid="uid://mjtb4bt0rl07" path="res://01_Resources/01_Label_Styles/PlayerUISettings.tres" id="3_y2m55"]
+[ext_resource type="LabelSettings" uid="uid://dbh4q1311qs5m" path="res://01_Resources/01_Label_Styles/PhaseStartUISetting.tres" id="4_1ck7o"]
 [ext_resource type="Texture2D" uid="uid://b0gvxorv75x35" path="res://00_Assets/00_Concept_Art/HealthHeartblue.png" id="4_hskst"]
 [ext_resource type="Script" uid="uid://ca1wt3l84a6t" path="res://03_Scripts/03_UI/gameUI.gd" id="5_eyj78"]
 [ext_resource type="FontFile" uid="uid://dnh7h7xgibyjj" path="res://00_Assets/04_Fonts/friendlyscribbles/friendlyscribbles.ttf" id="6_4dy1t"]
 [ext_resource type="LabelSettings" uid="uid://cnk0qoojppekx" path="res://01_Resources/01_Label_Styles/OpponentUIOutcomeSettings.tres" id="8_eyj78"]
-[ext_resource type="LabelSettings" uid="uid://ctpucfab43fs0" path="res://01_Resources/01_Label_Styles/TieOutcomeSettings.tres" id="9_hskst"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ck7o"]
+bg_color = Color(0.36078432, 0.41960785, 0.69803923, 0.5647059)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ip21e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dxby3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i5v5q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wet4g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rnw7d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ck7o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke0nj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xmy65"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gprd1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s383h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gpvq0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yhwcv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lplwx"]
 
 [node name="GameUi" type="Control"]
 layout_mode = 3
@@ -27,16 +56,15 @@ script = ExtResource("5_eyj78")
 script = ExtResource("2_1ck7o")
 
 [node name="OutcomeLabel" type="Label" parent="."]
+process_mode = 1
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -472.0
-offset_top = -44.0
-offset_right = 459.5
-offset_bottom = 46.0
+offset_top = -35.0
+offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.1584723, 0.15847233, 0.1584723, 1)
@@ -44,9 +72,14 @@ theme_override_colors/font_shadow_color = Color(0.105882354, 0.105882354, 0.1058
 theme_override_colors/font_outline_color = Color(0.5449743, 0.54497427, 0.54497427, 1)
 theme_override_fonts/font = ExtResource("6_4dy1t")
 theme_override_font_sizes/font_size = 70
-label_settings = ExtResource("9_hskst")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1ck7o")
+text = "Phase One - Play Pre-Roll Cards"
+label_settings = ExtResource("4_1ck7o")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="OpponentCornerUI" type="Control" parent="."]
+process_mode = 1
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -123,6 +156,7 @@ theme_override_fonts/font = ExtResource("6_4dy1t")
 label_settings = ExtResource("8_eyj78")
 
 [node name="PlayerCornerUI" type="Control" parent="."]
+process_mode = 1
 layout_mode = 1
 anchor_left = 0.020833334
 anchor_top = 0.94135803
@@ -147,24 +181,38 @@ label_settings = ExtResource("3_y2m55")
 
 [node name="MarginContainer2" type="MarginContainer" parent="PlayerCornerUI/PlayerUI"]
 layout_mode = 2
+theme_override_constants/margin_right = 660
 
 [node name="PlayerHP" type="Control" parent="PlayerCornerUI/PlayerUI"]
 layout_mode = 2
 
 [node name="PlayerLoss03" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
-position = Vector2(-166.19917, -45.67932)
+position = Vector2(-767, -39.99997)
 scale = Vector2(0.12000245, 0.12000245)
 texture = ExtResource("4_hskst")
 
 [node name="PlayerLoss02" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
-position = Vector2(-86.19917, -45.67932)
+position = Vector2(-687, -41)
 scale = Vector2(0.12000245, 0.12000245)
 texture = ExtResource("4_hskst")
 
 [node name="PlayerLoss01" type="Sprite2D" parent="PlayerCornerUI/PlayerUI/PlayerHP"]
-position = Vector2(-6.199173, -45.67932)
+position = Vector2(-606, -43)
 scale = Vector2(0.12000245, 0.12000245)
 texture = ExtResource("4_hskst")
+
+[node name="EndPhaseButton" type="Button" parent="PlayerCornerUI/PlayerUI"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.18240598, 0.6087023, 0.5955089, 1)
+theme_override_colors/font_hover_color = Color(0.18240598, 0.6087023, 0.5955089, 1)
+theme_override_fonts/font = ExtResource("6_4dy1t")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ip21e")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_dxby3")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_i5v5q")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_wet4g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rnw7d")
+text = "End Phase "
 
 [node name="PlayerResult" type="HBoxContainer" parent="PlayerCornerUI"]
 layout_mode = 0
@@ -178,3 +226,78 @@ layout_mode = 2
 [node name="PlayerRollResult" type="Label" parent="PlayerCornerUI/PlayerResult"]
 layout_mode = 2
 label_settings = ExtResource("3_hskst")
+
+[node name="StartMatchOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="StartMatchOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.36078432, 0.41960785, 0.69803923, 0.5647059)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMatchOverlay"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BeginMatchLabel" type="Label" parent="StartMatchOverlay/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0.107083164, 0.19476703, 0.36559603, 0.85882354)
+theme_override_colors/font_outline_color = Color(0.15691131, 0.15409294, 0.40200838, 1)
+theme_override_constants/shadow_offset_x = 15
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("6_4dy1t")
+theme_override_font_sizes/font_size = 75
+text = "Begin Match?"
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMatchOverlay/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 19
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StartMatchOverlay/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="YesButton" type="Button" parent="StartMatchOverlay/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.18240598, 0.6087023, 0.5955089, 1)
+theme_override_colors/font_hover_color = Color(0.18240598, 0.6087023, 0.5955089, 1)
+theme_override_fonts/font = ExtResource("6_4dy1t")
+theme_override_font_sizes/font_size = 45
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1ck7o")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ke0nj")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xmy65")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_gprd1")
+text = "Let's Play"
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMatchOverlay/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 25
+
+[node name="NoButton" type="Button" parent="StartMatchOverlay/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.812032, 0.35553408, 0.55461395, 1)
+theme_override_colors/font_hover_color = Color(0.812032, 0.35553408, 0.55461395, 1)
+theme_override_fonts/font = ExtResource("6_4dy1t")
+theme_override_font_sizes/font_size = 45
+theme_override_styles/normal = SubResource("StyleBoxEmpty_s383h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_gpvq0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_yhwcv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lplwx")
+text = "Let's Not"
