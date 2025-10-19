@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctv48gwmo2vyx"]
+
+[ext_resource type="PackedScene" uid="uid://dbj3itfddjudw" path="res://02_Scenes/06_GameBoards/CardGameBoard.tscn" id="1_6tshy"]
+[ext_resource type="PackedScene" uid="uid://cht5lmxux8f2j" path="res://02_Scenes/02_UI/01_Game_UI/GameUI.tscn" id="1_a3j3c"]
+[ext_resource type="PackedScene" uid="uid://ia83oh5gcxdt" path="res://02_Scenes/05_Players/02_Enemies/Enemy01.tscn" id="2_0mpft"]
+[ext_resource type="PackedScene" uid="uid://b73vi63stcdqr" path="res://03_Scripts/04_Dice/dice.tscn" id="2_e8xpi"]
+[ext_resource type="PackedScene" uid="uid://bmkec8wsgf51g" path="res://02_Scenes/06_GameBoards/GameTable.tscn" id="3_4lqsh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6tshy"]
+sky_top_color = Color(0.6472133, 0.33600426, 0.42641455, 1)
+sky_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+ground_bottom_color = Color(0.37477, 0.3236336, 0.26618484, 1)
+ground_horizon_color = Color(0.8713112, 0.78072476, 0.7889652, 1)
+
+[sub_resource type="Sky" id="Sky_0mpft"]
+sky_material = SubResource("ProceduralSkyMaterial_6tshy")
+
+[sub_resource type="Environment" id="Environment_4lqsh"]
+background_mode = 2
+sky = SubResource("Sky_0mpft")
+
+[node name="main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4lqsh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 0.64705884, 0.84705883, 1)
+light_energy = 3.75
+shadow_enabled = true
+directional_shadow_max_distance = 61.0
+
+[node name="GameUi" parent="." instance=ExtResource("1_a3j3c")]
+
+[node name="CardGameBoard" parent="." instance=ExtResource("1_6tshy")]
+transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 4.4236794, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.026715191, -0.48822504, 0.87230885, -0.009542167, 0.87245595, 0.48859966, -0.99959755, -0.02137675, 0.018649103, 7.9153013, 7.5545716, 0.26399553)
+
+[node name="Enemy01" parent="." instance=ExtResource("2_0mpft")]
+transform = Transform3D(1.3372679, 0, 28.969152, 1.3227137, 28.969757, -0.06105883, -28.938938, 1.3241223, 1.3358731, -11.731164, 6.4182835, -1.097666)
+
+[node name="GameTable" parent="." instance=ExtResource("3_4lqsh")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Dice" parent="." groups=["Enemy_Dice"] instance=ExtResource("2_e8xpi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.39271164, 5.751192, 0)
+
+[node name="Dice2" parent="." groups=["Player_Dice"] instance=ExtResource("2_e8xpi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6195936, 0)

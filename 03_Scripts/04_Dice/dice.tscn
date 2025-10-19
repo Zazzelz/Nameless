@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=4 uid="uid://b73vi63stcdqr"]
 
-[ext_resource type="Script" path="res://01_Dice_Roller/dice.gd" id="1_2jbab"]
+[ext_resource type="Script" uid="uid://bibxr170bgwhp" path="res://03_Scripts/04_Dice/dice.gd" id="1_2jbab"]
 [ext_resource type="Texture2D" uid="uid://c00x0mtdg708f" path="res://00_Assets/01_Dice/die_palette.png" id="2_ukgg3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ywhms"]

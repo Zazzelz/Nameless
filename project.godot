@@ -14,6 +14,10 @@ config/name="Nameless"
 run/main_scene="uid://dg5aek5lbnfff"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
+[autoload]
+
+GameContext="*res://03_Scripts/02_Core/01_GameBoard/GameContext.gd"
+
 [input]
 
 Quit={
