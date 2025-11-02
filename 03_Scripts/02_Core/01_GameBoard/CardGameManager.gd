@@ -12,6 +12,8 @@ class_name CardGameManager
 @onready var opponent_hand_zone := find_child("OpponentHandZone", true, false)
 @onready var player_play_zone := find_child("PlayerPlayZone", true, false)
 @onready var opponent_play_zone := find_child("OpponentPlayZone", true, false)
+@onready var player_discard_zone := find_child("PlayerDiscardZone", true, false)
+@onready var opponent_discard_zone := find_child("OpponentDiscardZone", true, false)
 
 func _ready():
 	print("CardGameManager is ready")
@@ -110,3 +112,41 @@ func _on_card_dropped(card: Node3D, target_zone: Node3D):
 			zone_manager.move_card_to_zone(root, target_zone)
 		else:
 			push_warning("Dropped node is not a Card: %s" % card.name)
+
+func cleanup_play_zones():
+	# move all cards from player play zone to player discard zone 
+	for card in player_play_zone.get_children():
+		if card is Card: 
+			zone_manager.move_card_to_zone(card, player_discard_zone)
+		# move all cards from Opponent play zone to Opponent discard zone 
+	for card in opponent_play_zone.get_children():
+		if card is Card: 
+			zone_manager.move_card_to_zone(card, opponent_discard_zone)
+
+func check_and_reshuffle_deck(deck_zone: Node3D, discard_zone: Node3D):
+	var deck_cards := []
+	for child in deck_zone.get_children():
+		if child is Card:
+			deck_cards.append(child)
+
+	# If deck is empty, move discard cards back
+	if deck_cards.size() == 0:
+		var discard_cards := []
+		for child in discard_zone.get_children():
+			if child is Card:
+				discard_cards.append(child)
+
+		if discard_cards.size() == 0:
+			print("Both deck and discard are empty! No cards to draw.")
+			return
+
+		# Shuffle discard cards
+		discard_cards.shuffle()
+
+		# ✅ Move them into deck zone with correct index for proper stacking
+		for i in range(discard_cards.size()):
+			var card = discard_cards[i]
+			discard_zone.remove_child(card)
+			zone_manager.move_card_to_zone(card, deck_zone, i)
+
+		print("Deck was empty. Reshuffled discard pile into deck:", deck_zone.name)

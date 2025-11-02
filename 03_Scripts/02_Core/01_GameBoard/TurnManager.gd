@@ -100,6 +100,12 @@ func _set_phase(new_phase: Phase):
 				game_ui.enable_card_input(false)
 
 				await game_ui.check_results()
+				if GameContext.board:
+					var board = GameContext.board
+					board.cleanup_play_zones()
+					board.check_and_reshuffle_deck(board.player_deck_zone, board.player_discard_zone)
+					board.check_and_reshuffle_deck(board.opponent_deck_zone, board.opponent_discard_zone)
+
 				await get_tree().create_timer(2.0).timeout
 				game_ui._clear_result_labels()
 

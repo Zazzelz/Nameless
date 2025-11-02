@@ -2,28 +2,28 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be3dcqsyh2w53"
-path="res://.godot/imported/Idle.png-8bf5be79998b33caff70e05a85a88f18.ctex"
+uid="uid://b6g1p8kb4r0o"
+path="res://.godot/imported/inscryption_POV.png-75e747504521649ae49282a30b045e0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://00_Assets/05_Enemies/Idle.png"
-dest_files=["res://.godot/imported/Idle.png-8bf5be79998b33caff70e05a85a88f18.ctex"]
+source_file="res://00_Assets/00_Concept_Art/00_Inspiration/inscryption_POV.png"
+dest_files=["res://.godot/imported/inscryption_POV.png-75e747504521649ae49282a30b045e0e.ctex"]
 
 [params]
 
 compress/mode=0
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

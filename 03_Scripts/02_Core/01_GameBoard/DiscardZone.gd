@@ -1,8 +1,9 @@
 extends Node3D
-class_name DeckZone
+class_name DiscardZone
 
 func _ready():
-	set_meta("zone_type", "deck")
+	set_meta("zone_type", "discard")
+	print("DiscardZone [%s] is ready" % name)
 
 func spawn_card(card: Node3D, index: int):
 	var mesh := get_node_or_null("ZoneMesh")
@@ -10,33 +11,28 @@ func spawn_card(card: Node3D, index: int):
 		push_warning("ZoneMesh not found in " + name)
 		return
 
-	# Always reparent and reset transform cleanly
 	add_child(card)
-	card.transform = Transform3D.IDENTITY
 	card.current_zone = self
 
-	# Base position taken from ZoneMesh (global space)
+	# Base position
 	var base_pos: Vector3 = mesh.global_transform.origin
 
-	# Stack offset pattern (Y up, Z depth)
+
+	# Offset each card slightly in Y or Z to stack them visibly
 	var offset := Vector3(0, index * 0.002, index * -0.005)
 
-	# ✅ Apply position in global space relative to the ZoneMesh
 	card.global_transform.origin = base_pos + offset
 	card.base_position = card.global_transform.origin
+	card.scale = Vector3(1, 1.5, 1.6)
 
-	# Uniform scale (same as initial spawn)
-	card.scale = Vector3(2, 2, 2)
-
-	# Correct rotation based on ownership
+	# Rotation
 	var is_player := name.contains("Player")
 	if is_player:
-		card.rotation_degrees = Vector3(90, 180, 180)
+		card.rotation_degrees = Vector3(90, 180, 90)
 	else:
 		card.rotation_degrees = Vector3(90, 0, 0)
-
 	card.visible = true
-
+	
 	print("Adding card to zone:", name)
 	print("Card parent before add:", card.get_parent())
 	#print("Card positioned at:", card.global_transform.origin)

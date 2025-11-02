@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dbj3itfddjudw"]
+[gd_scene load_steps=22 format=3 uid="uid://dbj3itfddjudw"]
 
 [ext_resource type="Script" uid="uid://gqj55rwtu3vx" path="res://03_Scripts/02_Core/01_GameBoard/CardGameManager.gd" id="1_leb8e"]
 [ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="2_3ivdm"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cmxjhbqs0m7a3" path="res://03_Scripts/02_Core/01_GameBoard/DeckZone.gd" id="5_q3he7"]
 [ext_resource type="Script" uid="uid://0mcfubmafmqh" path="res://03_Scripts/02_Core/01_GameBoard/HandZone.gd" id="6_8f1cp"]
 [ext_resource type="Script" uid="uid://cp1iti7h6p4o5" path="res://03_Scripts/02_Core/01_GameBoard/PlayZone.gd" id="7_ibr2j"]
+[ext_resource type="Script" uid="uid://ba0cnlxlq2meg" path="res://03_Scripts/02_Core/01_GameBoard/DiscardZone.gd" id="8_l3bxq"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_h3cqh"]
 
@@ -100,9 +101,11 @@ shape = SubResource("ConcavePolygonShape3D_ibr2j")
 
 [node name="PlayerDiscardZone" type="Node3D" parent="PlayerDeckManager"]
 transform = Transform3D(0.493375, 0, 1.1641532e-10, 0, 0.08271527, 0, 0, 0, 0.77232546, -3.1803033, -0.19924867, -3.751998)
+script = ExtResource("8_l3bxq")
 
 [node name="ZoneMesh" type="MeshInstance3D" parent="PlayerDeckManager/PlayerDiscardZone"]
 transform = Transform3D(0.87278485, -0.19556622, -0.00085276604, 0.23226272, 0.734889, -6.3522704e-05, 0.0006615572, -0.0001046677, 1.1473463, 0.92695236, 2.6461656, -0.123037815)
+visible = false
 mesh = SubResource("PlaneMesh_h3cqh")
 surface_material_override/0 = SubResource("StandardMaterial3D_5qeed")
 
@@ -161,6 +164,7 @@ shape = SubResource("ConvexPolygonShape3D_5kopi")
 
 [node name="OpponentDiscardZone" type="Node3D" parent="OpponentDeckManager"]
 transform = Transform3D(0.28793055, 0, 1.1641532e-10, 0, 0.02238417, 0, 4.3655746e-11, 0, 0.7723254, 2.4471295, -0.04880452, 0.47250056)
+script = ExtResource("8_l3bxq")
 
 [node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentDiscardZone"]
 transform = Transform3D(1.5337864, 0, 0, 0, 0.76046544, 0, -1.4551915e-10, 0, 1.1473466, 1.4040947, 2.6461658, 1.2101607)
