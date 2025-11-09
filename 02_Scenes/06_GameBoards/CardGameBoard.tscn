@@ -136,9 +136,9 @@ shape = SubResource("ConvexPolygonShape3D_5qeed")
 transform = Transform3D(2.8379114, 0, -1.7053026e-13, 0, -0.42148125, -0.0002335146, 0, 0.14964347, -0.0006577098, 0.056146048, 0.63278216, 1.3965585)
 visible = false
 script = ExtResource("6_8f1cp")
+layout_mode = "zone_offeset"
 hand_offset = Vector3(0, 2, -1.5)
 anchor_node = NodePath("../../PlayerDeckManager/PlayerDiscardZone/ZoneMesh")
-layout_mode = "zone_offeset"
 
 [node name="ZoneMesh" type="MeshInstance3D" parent="OpponentDeckManager/OpponentHandZone"]
 mesh = SubResource("BoxMesh_5qeed")

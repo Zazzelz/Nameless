@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_ncuep")
+template_id = "Disadvantage001"
 card_name = "Disadvantage"
 description = "Opponent rolls twice and takes the lower result"
 effect_type = "disadvantage"

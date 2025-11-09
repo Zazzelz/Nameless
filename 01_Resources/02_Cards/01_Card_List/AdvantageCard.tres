@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_8ylwp")
+template_id = "Advantage001"
 card_name = "Advantage"
 description = "Roll and extra dice and take the higher result"
 effect_type = "advantage"

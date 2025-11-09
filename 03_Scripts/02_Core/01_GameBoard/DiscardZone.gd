@@ -1,39 +1,28 @@
 extends Node3D
 class_name DiscardZone
 
+@export var zone_owner: String = "player" # "player" or "opponent"
+@export var stack_direction: Vector3 = Vector3(0, 0.002, -0.005)
+@export var card_scale: Vector3 = Vector3(1, 1.5, 1.6)
+
 func _ready():
 	set_meta("zone_type", "discard")
+	set_meta("owner", zone_owner)
 	print("DiscardZone [%s] is ready" % name)
 
-func spawn_card(card: Node3D, index: int):
+# Called by ZoneManager to visually position a card
+func layout_card(card: Node3D, index: int) -> void:
 	var mesh := get_node_or_null("ZoneMesh")
 	if not mesh:
 		push_warning("ZoneMesh not found in " + name)
 		return
 
-	add_child(card)
-	card.current_zone = self
-
-	# Base position
 	var base_pos: Vector3 = mesh.global_transform.origin
-
-
-	# Offset each card slightly in Y or Z to stack them visibly
-	var offset := Vector3(0, index * 0.002, index * -0.005)
+	var offset: Vector3 = stack_direction * index
 
 	card.global_transform.origin = base_pos + offset
 	card.base_position = card.global_transform.origin
-	card.scale = Vector3(1, 1.5, 1.6)
+	card.scale = card_scale
 
-	# Rotation
-	var is_player := name.contains("Player")
-	if is_player:
-		card.rotation_degrees = Vector3(90, 180, 90)
-	else:
-		card.rotation_degrees = Vector3(90, 0, 0)
+	card.rotation_degrees = Vector3(90, 180, 90) if zone_owner == "player" else Vector3(90, 0, 0)
 	card.visible = true
-	
-	print("Adding card to zone:", name)
-	print("Card parent before add:", card.get_parent())
-	#print("Card positioned at:", card.global_transform.origin)
-	#print("Card rotation set to:", card.rotation_degrees)

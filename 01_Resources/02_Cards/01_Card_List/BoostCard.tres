@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_81aan")
+template_id = "Boost001"
 card_name = "Boost"
 description = "Adds +2 to your dice roll"
 effect_type = "boost"

@@ -1,43 +1,29 @@
 extends Node3D
 class_name DeckZone
 
+@export var zone_owner: String = "player"
+@export var stack_direction: Vector3 = Vector3(0, 0.002, -0.005)
+@export var card_scale: Vector3 = Vector3(2, 2, 2)
+
 func _ready():
 	set_meta("zone_type", "deck")
+	set_meta("owner", owner)
 
-func spawn_card(card: Node3D, index: int):
+# Called by ZoneManager to position a card visually
+func layout_card(card: Node3D, index: int) -> void:
 	var mesh := get_node_or_null("ZoneMesh")
 	if not mesh:
 		push_warning("ZoneMesh not found in " + name)
 		return
 
-	# Always reparent and reset transform cleanly
-	add_child(card)
-	card.transform = Transform3D.IDENTITY
-	card.current_zone = self
-
-	# Base position taken from ZoneMesh (global space)
+	# Position relative to ZoneMesh origin
 	var base_pos: Vector3 = mesh.global_transform.origin
+	var offset: Vector3 = stack_direction * index
 
-	# Stack offset pattern (Y up, Z depth)
-	var offset := Vector3(0, index * 0.002, index * -0.005)
-
-	# ✅ Apply position in global space relative to the ZoneMesh
 	card.global_transform.origin = base_pos + offset
 	card.base_position = card.global_transform.origin
+	card.scale = card_scale
 
-	# Uniform scale (same as initial spawn)
-	card.scale = Vector3(2, 2, 2)
-
-	# Correct rotation based on ownership
-	var is_player := name.contains("Player")
-	if is_player:
-		card.rotation_degrees = Vector3(90, 180, 180)
-	else:
-		card.rotation_degrees = Vector3(90, 0, 0)
-
+	# Rotation based on ownership
+	card.rotation_degrees = Vector3(90, 180, 180) if zone_owner == "player" else Vector3(90, 0, 0)
 	card.visible = true
-
-	print("Adding card to zone:", name)
-	print("Card parent before add:", card.get_parent())
-	#print("Card positioned at:", card.global_transform.origin)
-	#print("Card rotation set to:", card.rotation_degrees)

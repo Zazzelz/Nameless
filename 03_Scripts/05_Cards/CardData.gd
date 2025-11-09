@@ -1,7 +1,7 @@
 extends Resource
 class_name CardData
 
-@export var id: String = ""  # ✅ Add this line
+@export var template_id: String = ""  # ✅ Add this line
 @export var card_name: String
 @export var description: String
 @export var effect_type: String # e.g., "advantage", "disadvantage", "penalty", "double_roll"

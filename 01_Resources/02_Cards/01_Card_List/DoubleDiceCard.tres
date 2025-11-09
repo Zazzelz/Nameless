@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_qxuk3")
+template_id = "DoubleDice001"
 card_name = "DoubleDice"
 description = "Roll two dice and use the sum"
 effect_type = "double_roll"
