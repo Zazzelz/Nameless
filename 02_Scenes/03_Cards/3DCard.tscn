@@ -64,6 +64,9 @@ theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_x33bn")
 theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="AbilityLabel" type="Label" parent="SubViewport/CardUi"]
 texture_filter = 1
@@ -77,6 +80,7 @@ theme_override_colors/font_color = Color(0.10076118, 0.23162413, 0.41847417, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_x33bn")
 theme_override_font_sizes/font_size = 28
+autowrap_mode = 2
 
 [node name="Area3D" type="Area3D" parent="."]
 process_mode = 3

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://n0uvpu824xy"]
+
+[ext_resource type="Script" uid="uid://bvgmwajtqhbvy" path="res://03_Scripts/07_Test_Scripts/CardSpawnTest.gd" id="1_54lhf"]
+
+[node name="CardSpawnTest" type="Node3D"]
+script = ExtResource("1_54lhf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25000006, 0.47571674, -0.5596476, 0.67859286, -0.15392743, 0.7066078, 0.6906604, 0, 3.2156014, 2.8115625)
+light_color = Color(1, 0.64705884, 0.84705883, 1)
+light_energy = 3.75
+shadow_enabled = true
+directional_shadow_max_distance = 61.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23656583, 1.146507)

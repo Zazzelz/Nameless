@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://fd7ra5qrkfku"]
+
+[ext_resource type="Script" uid="uid://dr28c52a0cdek" path="res://03_Scripts/07_Test_Scripts/GameBoardTest.gd" id="1_7ldui"]
+[ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="1_lth2e"]
+[ext_resource type="Script" uid="uid://dqx8am220r4dr" path="res://03_Scripts/05_Cards/CardFactory.gd" id="2_7ldui"]
+[ext_resource type="PackedScene" uid="uid://dnk8sxv4riweu" path="res://02_Scenes/06_GameBoards/ZoneManager.tscn" id="3_ujlun"]
+
+[node name="GameBoardTest" type="Node3D"]
+script = ExtResource("1_7ldui")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25000003, 0.5000001, -0.75, 0.4330126, 3.476048e-08, 0.49999994, 0.86602545, 0, 2, 4)
+light_color = Color(1, 0.64705884, 0.84705883, 1)
+light_energy = 3.75
+shadow_enabled = true
+directional_shadow_max_distance = 61.0
+
+[node name="PlayerDeckManager" type="Node" parent="."]
+script = ExtResource("1_lth2e")
+
+[node name="CardFactory" type="Node" parent="."]
+script = ExtResource("2_7ldui")
+
+[node name="ZoneManager" parent="." instance=ExtResource("3_ujlun")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.7071068, 0, -0.7071068, 0.70710677, 0, 1, 2)
+fov = 125.38508

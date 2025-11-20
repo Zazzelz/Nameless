@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnk8sxv4riweu"]
+
+[ext_resource type="Script" uid="uid://kg2ko3okrkdi" path="res://03_Scripts/02_Core/01_GameBoard/ZoneManager.gd" id="1_c3kki"]
+
+[node name="ZoneManager" type="Node3D"]
+script = ExtResource("1_c3kki")
+
+[node name="PlayerDeckZone" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1098832, 0, 0.56320703)
+
+[node name="PlayerHandZone" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9308238)
+
+[node name="PlayerPlayZone" type="Marker3D" parent="."]
+
+[node name="PlayerDiscardZone" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9145012, 0, 0.5739665)
