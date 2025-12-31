@@ -1,4 +1,16 @@
 extends Control
+class_name GameUI
+
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
 
 # === UI References ===
 @onready var player_result_label: Label = find_child("PlayerRollResult", true, false)
@@ -50,13 +62,17 @@ func _ready():
 	end_phase_button.pressed.connect(_on_end_phase_pressed)
 	end_phase_button.visible = false
 
+	_log("GameUI ready — dice and UI initialized")
+
 func _on_yes_pressed():
 	get_tree().paused = false
 	start_overlay.hide()
 	emit_signal("start_match_confirmed")
+	_log("Match confirmed")
 
 func _on_no_pressed():
 	emit_signal("start_match_cancelled")
+	_log("Match cancelled")
 	get_tree().quit()
 
 func _process(_delta):
@@ -65,21 +81,25 @@ func _process(_delta):
 
 	if Input.is_action_just_pressed("ui_accept"):
 		if game_over:
+			_log("Restarting game")
 			_restart_game()
 		elif dice_input_enabled:
+			_log("Rolling all dice")
 			roll_all_dice()
 		else:
 			var managers = get_tree().get_nodes_in_group("TurnManager")
 			if managers.size() > 0:
 				var turn_manager = managers[0]
-				print("Dice rolling disabled during phase:", turn_manager.get_current_phase())
+				_warn("Dice rolling disabled during phase: %s" % turn_manager.get_current_phase())
 			else:
-				print("TurnManager not found in group.")
+				_warn("TurnManager not found in group")
 
 func roll_all_dice():
 	_clear_result_labels()
 	dice_to_wait = player_dice.size() + enemy_dice.size()
 	dice_finished_count = 0
+
+	_log("Rolling %d dice" % dice_to_wait)
 
 	for die in player_dice:
 		die.roll()
@@ -89,13 +109,14 @@ func roll_all_dice():
 
 func dice_finished():
 	dice_finished_count += 1
+	_log("Dice finished: %d / %d" % [dice_finished_count, dice_to_wait])
+
 	if dice_finished_count >= dice_to_wait:
 		var managers = get_tree().get_nodes_in_group("TurnManager")
 		if managers.size() > 0:
-			var turn_manager = managers[0]
-			turn_manager.advance_to_post_roll()
+			managers[0].advance_to_post_roll()
 		else:
-			print("TurnManager not found in group.")
+			_warn("TurnManager not found in group")
 
 func preview_roll_outcome():
 	var player_total = 0
@@ -104,13 +125,13 @@ func preview_roll_outcome():
 	for die in player_dice:
 		var result = die.get_roll_value()
 		player_total += result
-		player_result_label.text = die.dice_name + " rolled: " + str(result)
+		player_result_label.text = "%s rolled: %d" % [die.dice_name, result]
 		player_result_label.show()
 
 	for die in enemy_dice:
 		var result = die.get_roll_value()
 		enemy_total += result
-		opponent_result_label.text = die.dice_name + " rolled: " + str(result)
+		opponent_result_label.text = "%s rolled: %d" % [die.dice_name, result]
 		opponent_result_label.show()
 
 	await get_tree().create_timer(1.5).timeout
@@ -126,6 +147,7 @@ func preview_roll_outcome():
 		outcome_label.label_settings = style_manager.label_styles.get("TieOutcomeSettings")
 
 	outcome_label.show()
+	_log("Preview roll outcome: P=%d, O=%d" % [player_total, enemy_total])
 
 func check_results():
 	var player_total = 0
@@ -153,6 +175,7 @@ func check_results():
 		outcome_label.label_settings = style_manager.label_styles.get("TieOutcomeSettings")
 
 	outcome_label.show()
+	_log("Round result: P=%d, O=%d" % [player_total, enemy_total])
 
 func check_game_over() -> bool:
 	if player_hp <= 0:
@@ -160,12 +183,14 @@ func check_game_over() -> bool:
 		outcome_label.label_settings = style_manager.label_styles.get("OpponentWinSettings")
 		outcome_label.show()
 		game_over = true
+		_log("Game over — opponent wins")
 		return true
 	elif opponent_hp <= 0:
 		outcome_label.text = "Player wins the match!"
 		outcome_label.label_settings = style_manager.label_styles.get("PlayerWinSettings")
 		outcome_label.show()
 		game_over = true
+		_log("Game over — player wins")
 		return true
 	return false
 
@@ -188,10 +213,9 @@ func _on_end_phase_pressed():
 
 	var turn_manager_nodes = get_tree().get_nodes_in_group("TurnManager")
 	if turn_manager_nodes.size() > 0:
-		var turn_manager = turn_manager_nodes[0]
-		turn_manager.end_player_phase()
+		turn_manager_nodes[0].end_player_phase()
 	else:
-		print("TurnManager not found in group.")
+		_warn("TurnManager not found in group")
 
 func _restart_game():
 	player_hp = player_hp_container.get_child_count()
@@ -205,11 +229,15 @@ func _restart_game():
 	start_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	get_tree().paused = true
 
+	_log("Game restarted")
+
 func enable_dice_input(state: bool):
 	dice_input_enabled = state
+	_log("Dice input set to %s" % str(state))
 
 func enable_card_input(state: bool):
 	card_input_enabled = state
+	_log("Card input set to %s" % str(state))
 
 func show_phase_message(text: String, duration := 3):
 	outcome_label.text = text
@@ -217,6 +245,8 @@ func show_phase_message(text: String, duration := 3):
 	outcome_label.show()
 	await get_tree().create_timer(duration).timeout
 	outcome_label.hide()
+	_log("Phase message shown: %s" % text)
 
 func show_end_phase_button(is_visible: bool):
 	end_phase_button.visible = is_visible
+	_log("End phase button visibility: %s" % str(is_visible))

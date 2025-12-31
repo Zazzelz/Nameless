@@ -1,6 +1,17 @@
 extends Node
 class_name TurnManager
 
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
+
 var card_game_manager: CardGameManager
 
 # === Phase Enum ===
@@ -28,22 +39,21 @@ func _ready() -> void:
 	add_to_group("TurnManager")
 	call_deferred("_late_init")
 
-	
 func _late_init() -> void:
 	var ui_nodes := get_tree().get_nodes_in_group("GameUI")
 	if ui_nodes.size() > 0:
 		game_ui = ui_nodes[0]
 		game_ui.start_match_confirmed.connect(_on_start_match_confirmed)
 		game_ui.start_match_cancelled.connect(_on_start_match_cancelled)
-		print("GameUI connected to TurnManager.")
+		_log("GameUI connected to TurnManager")
 	else:
-		print("GameUI not found in group.")
+		_warn("GameUI not found in group")
 
 	var game_nodes := get_tree().get_nodes_in_group("CardGameManager")
 	if game_nodes.size() > 0:
 		card_game_manager = game_nodes[0]
 	else:
-		push_warning("CardGameManager not found in group.")
+		_warn("CardGameManager not found in group")
 
 # === Match Start ===
 func _on_start_match_confirmed() -> void:
@@ -51,15 +61,15 @@ func _on_start_match_confirmed() -> void:
 	card_game_manager._setup_game()
 	_set_phase(Phase.PLAYER_TURN)
 
-
 func _on_start_match_cancelled() -> void:
-	print("Match cancelled. Quitting game.")
+	_log("Match cancelled. Quitting game")
 	get_tree().quit()
 
 # === Phase Control ===
 func _set_phase(new_phase: Phase) -> void:
 	current_phase = new_phase
 	emit_signal("phase_changed", current_phase)
+	_log("Phase changed → %s" % str(new_phase))
 
 	match current_phase:
 		Phase.BEGIN:
@@ -93,14 +103,14 @@ func _handle_player_turn() -> void:
 		game_ui.enable_card_input(true)
 
 func _handle_roll_dice() -> void:
-	print("Phase Two: Roll the Dice")
+	_log("Phase Two: Roll the Dice")
 	if game_ui:
 		game_ui.show_phase_message("Phase Two: Roll the Dice", 4.0)
 		game_ui.enable_dice_input(true)
 		game_ui.enable_card_input(false)
 
 func _handle_game_over() -> void:
-	print("Game Over")
+	_log("Game Over")
 	if game_ui:
 		game_ui.show_phase_message("Game Over")
 		game_ui.enable_dice_input(false)
@@ -108,14 +118,14 @@ func _handle_game_over() -> void:
 
 # === Async Phase Handlers ===
 func _handle_enemy_turn() -> void:
-	print("Enemy Turn begins")
+	_log("Enemy Turn begins")
 	if game_ui:
 		game_ui.show_phase_message("Enemy thinking...")
 	await get_tree().create_timer(2.0).timeout
 	_set_phase(Phase.ROLL_DICE)
 
 func _handle_player_turn_2() -> void:
-	print("Phase Three: Play Post-Roll cards")
+	_log("Phase Three: Play Post-Roll cards")
 	if game_ui:
 		await game_ui.preview_roll_outcome()
 		game_ui.show_phase_message("Phase Three: Play Post-Roll cards")
@@ -124,14 +134,14 @@ func _handle_player_turn_2() -> void:
 		game_ui.enable_card_input(true)
 
 func _handle_enemy_turn_2() -> void:
-	print("Enemy reacts...")
+	_log("Enemy reacts…")
 	if game_ui:
 		game_ui.show_phase_message("Enemy reacting...")
 	await get_tree().create_timer(2.0).timeout
 	_set_phase(Phase.RESOLVE)
 
 func _handle_resolve_phase() -> void:
-	print("Resolving round outcome...")
+	_log("Resolving round outcome…")
 	if game_ui:
 		game_ui.show_phase_message("Resolving round outcome...", 3.0)
 		game_ui.enable_dice_input(false)

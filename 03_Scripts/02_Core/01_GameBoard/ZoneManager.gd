@@ -1,9 +1,19 @@
 extends Node
 class_name ZoneManager
 
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
+
 @export var player_deck_manager_path: NodePath = "../PlayerDeckManager"
 @export var opponent_deck_manager_path: NodePath = "../OpponentDeckManager"
-
 
 @onready var player_deck_manager: DeckManager = get_node_or_null(player_deck_manager_path)
 @onready var opponent_deck_manager: DeckManager = get_node_or_null(opponent_deck_manager_path)
@@ -13,7 +23,7 @@ class_name ZoneManager
 var zones: Dictionary = {}
 
 func _ready() -> void:
-	print("ZoneManager: Initializing...")
+	_log("ZoneManager: Initializing...")
 
 	var expected_zone_names := [
 		"PlayerDeckZone", "PlayerHandZone", "PlayerPlayZone", "PlayerDiscardZone",
@@ -25,26 +35,26 @@ func _ready() -> void:
 		if node and node is Node3D:
 			var key: String = _normalize_zone_name(zone_name)
 			zones[key] = node
-			print("Zone mapped:", key, "→", node.name)
+			_log("Zone mapped: %s → %s" % [key, node.name])
 		else:
-			push_warning("ZoneManager: Zone not found or not Node3D: %s" % zone_name)
+			_warn("ZoneManager: Zone not found or not Node3D: %s" % zone_name)
 
-	print("Zones discovered:", zones.keys())
+	_log("Zones discovered: %s" % str(zones.keys()))
 
 	if player_deck_manager:
-		print("PlayerDeckManager found.")
+		_log("PlayerDeckManager found.")
 		player_deck_manager.deck_state_changed.connect(_on_deck_state_changed)
 	else:
-		push_warning("ZoneManager: PlayerDeckManager not assigned.")
+		_warn("ZoneManager: PlayerDeckManager not assigned.")
 
 	if opponent_deck_manager:
-		print("OpponentDeckManager found.")
+		_log("OpponentDeckManager found.")
 		opponent_deck_manager.deck_state_changed.connect(_on_deck_state_changed)
 	else:
-		push_warning("ZoneManager: OpponentDeckManager not assigned.")
+		_warn("ZoneManager: OpponentDeckManager not assigned.")
 
 func _on_deck_state_changed(deck_state: Dictionary) -> void:
-	print("Deck state changed. Zones in state:", deck_state.keys())
+	_log("Deck state changed. Zones in state: %s" % str(deck_state.keys()))
 
 	for zone_key in deck_state.keys():
 		if zones.has(zone_key):
@@ -55,18 +65,18 @@ func _on_deck_state_changed(deck_state: Dictionary) -> void:
 				if typeof(id) == TYPE_STRING:
 					instance_ids.append(id)
 				else:
-					push_warning("Non-string ID in zone %s: %s" % [zone_key, id])
+					_warn("Non-string ID in zone %s: %s" % [zone_key, id])
 
-			print("Zone:", zone_key, "contains", instance_ids.size(), "cards")
+			_log("Zone %s contains %d cards" % [zone_key, instance_ids.size()])
 
 			if render_visuals:
 				render_zone(zones[zone_key], instance_ids)
 		else:
-			push_warning("ZoneManager: No zone mapped for key: %s" % zone_key)
+			_warn("ZoneManager: No zone mapped for key: %s" % zone_key)
 
 func render_zone(zone_node: Node3D, instance_ids: Array[String]) -> void:
 	if not zone_node:
-		push_warning("ZoneManager: Zone node is null.")
+		_warn("ZoneManager: Zone node is null.")
 		return
 
 	for child in zone_node.get_children():
@@ -74,7 +84,7 @@ func render_zone(zone_node: Node3D, instance_ids: Array[String]) -> void:
 
 	var deck_manager := get_deck_manager_for_zone(zone_node.name)
 	if not deck_manager:
-		push_warning("ZoneManager: No deck manager found for zone: %s" % zone_node.name)
+		_warn("ZoneManager: No deck manager found for zone: %s" % zone_node.name)
 		return
 
 	for i in range(instance_ids.size()):
@@ -83,12 +93,12 @@ func render_zone(zone_node: Node3D, instance_ids: Array[String]) -> void:
 func spawn_visual_card(instance_id: String, zone_node: Node3D, index: int, deck_manager: DeckManager) -> void:
 	var template_id: String = deck_manager.instance_lookup.get(instance_id, "")
 	if template_id == "":
-		push_warning("ZoneManager: No template ID found for instance: %s" % instance_id)
+		_warn("ZoneManager: No template ID found for instance: %s" % instance_id)
 		return
 
 	var card_data: CardData = deck_manager.base_cards.get(template_id, null)
 	if card_data == null:
-		push_warning("ZoneManager: No CardData found for template ID: %s (from instance: %s)" % [template_id, instance_id])
+		_warn("ZoneManager: No CardData for template ID %s (instance %s)" % [template_id, instance_id])
 		return
 
 	var card_scene: PackedScene = preload("res://02_Scenes/03_Cards/3DCard.tscn")
@@ -99,7 +109,6 @@ func spawn_visual_card(instance_id: String, zone_node: Node3D, index: int, deck_
 
 	card.position = Vector3(0, index * 0.002, index * -0.005)
 
-	# ✅ Fixed: replaced ternary operator with proper conditional expression
 	if zone_node.name.contains("Player"):
 		card.rotation_degrees = Vector3(90, 180, 180)
 	else:
@@ -109,7 +118,7 @@ func spawn_visual_card(instance_id: String, zone_node: Node3D, index: int, deck_
 	card.visible = true
 
 	zone_node.add_child(card)
-	print("Spawned card:", instance_id, "→", template_id, "in", zone_node.name)
+	_log("Spawned card %s → %s in %s" % [instance_id, template_id, zone_node.name])
 
 func get_deck_manager_for_zone(zone_name: String) -> DeckManager:
 	if zone_name.contains("Player"):

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://04r1cl2a6p56"]
 
-[ext_resource type="Script" uid="uid://bj1pbgxcoq23l" path="res://03_Scripts/07_Test_Scripts/DeckTest.gd" id="1_x01m4"]
+[ext_resource type="Script" uid="uid://bj1pbgxcoq23l" path="res://03_Scripts/07_Test_Scripts/DeckSpawnTest.gd" id="1_x01m4"]
 [ext_resource type="Script" uid="uid://dqx8am220r4dr" path="res://03_Scripts/05_Cards/CardFactory.gd" id="2_us87x"]
 [ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="3_8j2wl"]
 
-[node name="DeckTestScene" type="Node3D"]
+[node name="DeckSpawnTestScene" type="Node3D"]
 script = ExtResource("1_x01m4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

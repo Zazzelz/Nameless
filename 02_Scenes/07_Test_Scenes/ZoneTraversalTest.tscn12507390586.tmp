@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://8xpn53vf5h86"]
+
+[ext_resource type="Script" uid="uid://jqwdfvmo587t" path="res://03_Scripts/07_Test_Scripts/ZoneTraversalTest.gd" id="1_i25fa"]
+[ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="2_nl3wj"]
+[ext_resource type="Script" uid="uid://kg2ko3okrkdi" path="res://03_Scripts/02_Core/01_GameBoard/ZoneManager.gd" id="3_8f2qt"]
+
+[node name="ZoneTraversalTest" type="Node"]
+script = ExtResource("1_i25fa")
+
+[node name="PlayerDeckManager" type="Node" parent="."]
+script = ExtResource("2_nl3wj")
+
+[node name="OpponentDeckManager" type="Node" parent="."]
+script = ExtResource("2_nl3wj")
+
+[node name="ZoneManager" type="Node" parent="."]
+script = ExtResource("3_8f2qt")
+
+[node name="PlayerDeckZone" type="Node3D" parent="."]
+
+[node name="PlayerHandZone" type="Node3D" parent="."]
+
+[node name="PlayerPlayZone" type="Node3D" parent="."]
+
+[node name="PlayerDiscardZone" type="Node3D" parent="."]
+
+[node name="OpponentDeckZone" type="Node3D" parent="."]
+
+[node name="OpponentHandZone" type="Node3D" parent="."]
+
+[node name="OpponentPlayZone" type="Node3D" parent="."]
+
+[node name="OpponentDiscardZone" type="Node3D" parent="."]

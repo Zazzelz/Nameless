@@ -1,6 +1,17 @@
 extends Area3D
 class_name PlayZone
 
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
+
 @export var zone_owner: String = "player" # "player" or "opponent"
 @export var stack_direction: Vector3 = Vector3(0, 0.002, -0.005)
 @export var card_scale: Vector3 = Vector3(1, 1.5, 1.6)
@@ -10,13 +21,13 @@ func _ready() -> void:
 	set_meta("zone_type", "play")
 	set_meta("owner", zone_owner)
 	set_meta("zone_ref", self)
-	print("PlayZone [%s] is ready" % zone_owner)
+	_log("PlayZone [%s] is ready" % zone_owner)
 
 # Called by ZoneManager to visually position a card
 func layout_card(card: Node3D, index: int) -> void:
 	var mesh: Node3D = get_node_or_null("ZoneMesh")
 	if not mesh:
-		push_warning("ZoneMesh not found in " + name)
+		_warn("ZoneMesh not found in " + name)
 		return
 
 	var base_pos: Vector3 = mesh.global_transform.origin
@@ -36,5 +47,5 @@ func layout_card(card: Node3D, index: int) -> void:
 		mesh_node.scale = Vector3.ONE
 		mesh_node.rotation_degrees = Vector3.ZERO
 
-	print("Card placed at:", final_pos)
-	print("Rotation Y:", random_y_rotation)
+	_log("Card placed at %s" % str(final_pos))
+	_log("Rotation Y: %f" % random_y_rotation)

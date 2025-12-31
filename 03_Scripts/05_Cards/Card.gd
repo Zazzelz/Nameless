@@ -1,9 +1,20 @@
 extends Node3D
 class_name Card
 
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
+
 # === State ===
-var instance_id: String = ""       # Unique per card copy
-var template_id: String = ""       # Static ID from CardData
+var instance_id: String = ""
+var template_id: String = ""
 var card_data: CardData = null
 var current_zone: Node3D = null
 var zone_type: String = ""
@@ -23,8 +34,10 @@ func _ready() -> void:
 	if area:
 		area.monitoring = true
 		area.monitorable = true
-	# Defer UI application until nodes are ready
-	call_deferred("apply_card_data")
+
+	# Defer UI application until viewport is ready
+	call_deferred("_apply_ui_when_ready")
+
 
 # === Setup ===
 func setup_from_data(_card_data: CardData, zone_node: Node3D = null, instance_id_in: String = "") -> void:
@@ -38,7 +51,6 @@ func setup_from_data(_card_data: CardData, zone_node: Node3D = null, instance_id
 	zone_type = zone_node.get_meta("zone_type") if zone_node and zone_node.has_meta("zone_type") else ""
 	zone_owner = zone_node.get_meta("owner") if zone_node and zone_node.has_meta("owner") else ""
 
-	apply_card_data()
 
 func reset_state() -> void:
 	has_been_played = false
@@ -49,6 +61,62 @@ func reset_state() -> void:
 	zone_type = ""
 	zone_owner = ""
 
+
+# === Guaranteed UI Application ===
+func _apply_ui_when_ready() -> void:
+	# Wait until SubViewport exists
+	if not sub_viewport:
+		await get_tree().process_frame
+		sub_viewport = get_node_or_null("SubViewport")
+
+	if not sub_viewport:
+		_warn("Card: SubViewport never became ready")
+		return
+
+	# Wait until CardUi exists inside the viewport
+	var card_ui := sub_viewport.get_node_or_null("CardUi")
+	var attempts := 0
+
+	while not card_ui and attempts < 10:
+		await get_tree().process_frame
+		card_ui = sub_viewport.get_node_or_null("CardUi")
+		attempts += 1
+
+	if not card_ui:
+		_warn("Card: CardUi never appeared inside SubViewport")
+		return
+
+	apply_card_data()
+
+
+# === Visuals ===
+func apply_card_data() -> void:
+	if not card_data:
+		_warn("Card: apply_card_data() called with no card_data")
+		return
+
+	var card_ui := sub_viewport.get_node_or_null("CardUi")
+	if not card_ui:
+		_warn("Card: CardUi missing at apply time")
+		return
+
+	var name_label: Label = card_ui.get_node_or_null("NameLabel")
+	var ability_label: Label = card_ui.get_node_or_null("AbilityLabel")
+	var icon: TextureRect = card_ui.get_node_or_null("Icon")
+	var debug_label: Label = card_ui.get_node_or_null("DebugLabel")
+
+	if name_label:
+		name_label.text = card_data.card_name
+	if ability_label:
+		ability_label.text = card_data.description
+	if icon and card_data.icon_texture:
+		icon.texture = card_data.icon_texture
+	if debug_label:
+		debug_label.text = instance_id
+
+	_log("Card UI applied: %s" % card_data.card_name)
+
+
 # === Interaction ===
 func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -56,6 +124,7 @@ func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: 
 			card_clicked.emit(self)
 		if event.double_click:
 			_on_card_double_clicked()
+
 
 func _on_card_double_clicked() -> void:
 	if has_been_played or not current_zone:
@@ -67,37 +136,3 @@ func _on_card_double_clicked() -> void:
 	elif zone_type == "hand" and zone_owner == "opponent":
 		has_been_played = true
 		card_dropped.emit(self, GameContext.opponent_play_zone)
-
-# === Visuals ===
-func apply_card_data() -> void:
-	if not sub_viewport or not card_data:
-		return
-
-	var card_ui := sub_viewport.get_node_or_null("CardUi")
-	if not card_ui:
-		push_error("CardUi node not found in SubViewport")
-		return
-
-	var name_label := card_ui.get_node_or_null("NameLabel")
-	if name_label and name_label is Label:
-		name_label.text = card_data.card_name
-
-	var ability_label := card_ui.get_node_or_null("AbilityLabel")
-	if ability_label and ability_label is Label:
-		ability_label.text = card_data.description
-
-	var icon := card_ui.get_node_or_null("Icon")
-	if icon and icon is TextureRect and card_data.icon_texture:
-		icon.texture = card_data.icon_texture
-
-	# Optional debug info
-	var debug_label := card_ui.get_node_or_null("DebugLabel")
-	if debug_label and debug_label is Label:
-		debug_label.text = instance_id
-
-# === Accessors ===
-func get_card_instance_id() -> String:
-	return instance_id
-
-func get_template_id() -> String:
-	return template_id

@@ -3,6 +3,18 @@ class_name DeckManager
 
 signal deck_state_changed(deck_state: Dictionary)
 
+# === Debug Toggle ===
+@export var debug_enabled: bool = false
+
+func _log(msg: String) -> void:
+	if debug_enabled:
+		print(msg)
+
+func _warn(msg: String) -> void:
+	if debug_enabled:
+		push_warning(msg)
+
+# === Deck State ===
 var deck_state: Dictionary = {
 	"player_deck": [],
 	"player_hand": [],
@@ -14,116 +26,148 @@ var deck_state: Dictionary = {
 	"opponent_discard": []
 }
 
-var base_cards: Dictionary = {}
-var instance_lookup: Dictionary = {}
-var deck_size: int = 5
+# === Template Registry ===
+var base_cards: Dictionary = {}          # template_id → CardData
+var instance_lookup: Dictionary = {}     # instance_id → template_id
 
+var deck_size: int = 15
+
+#   LOAD CARD TEMPLATES (.tres)
 func load_base_cards() -> void:
-	# Stub card data
-	var card_id = "Disadvantage001"
-	base_cards[card_id] = CardData.new() # Replace with your actual card data
-	print("DeckManager: Base cards loaded:", base_cards.keys())
+	base_cards.clear()
 
-func initialize_deck(player: String) -> void:
-	var deck_key = "%s_deck" % player
-	deck_state[deck_key] = []  # ensure the array exists
+	var dir := DirAccess.open("res://01_Resources/02_Cards/01_Card_List/")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
 
-	var instance_id = "%s_copy_%d_%d" % ["Disadvantage001", 0, randi() % 9999]
-	instance_lookup[instance_id] = "Disadvantage001"
-	deck_state[deck_key].append(instance_id)
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var path = "res://01_Resources/02_Cards/01_Card_List/" + file_name
+				var data: CardData = load(path)
 
-	print("DEBUG: deck_state seeded:", deck_state)
+				if data and data.template_id != "":
+					base_cards[data.template_id] = data
+				else:
+					_warn("DeckManager: CardData missing template_id at %s" % path)
+
+			file_name = dir.get_next()
+
+	_log("DeckManager: Loaded templates: %s" % str(base_cards.keys()))
+
+#   RANDOM DECK GENERATION
+func initialize_deck(side: String) -> void:
+	var deck_key = "%s_deck" % side
+	deck_state[deck_key] = []
+
+	var template_ids: Array = base_cards.keys()
+	if template_ids.is_empty():
+		_warn("DeckManager: No templates loaded; cannot initialize deck")
+		return
+
+	# Generate random deck
+	for i in deck_size:
+		var template_id = template_ids.pick_random()
+		var instance_id = "%s_%d" % [template_id, randi()]
+
+		instance_lookup[instance_id] = template_id
+		deck_state[deck_key].append(instance_id)
+
+	# Reset other zones
+	deck_state["%s_hand" % side] = []
+	deck_state["%s_play" % side] = []
+	deck_state["%s_discard" % side] = []
+
 	deck_state_changed.emit(deck_state)
+	_log("DeckManager: Initialized %s deck → %s" % [side, deck_state[deck_key]])
 
-func draw_card(player: String) -> String:
-	var deck_key = "%s_deck" % player
-	var hand_key = "%s_hand" % player
+#   DRAW / MOVE / CLEANUP
+func draw_card(side: String) -> String:
+	var deck_key = "%s_deck" % side
+	var hand_key = "%s_hand" % side
 
 	if deck_state[deck_key].is_empty():
 		return ""
-	var card_id: String = deck_state[deck_key].pop_front()
-	deck_state[hand_key].append(card_id)
-	deck_state_changed.emit(deck_state)
-	return card_id
 
-func move_card(from_zone: String, to_zone: String, card_id: String) -> void:
+	var instance_id: String = deck_state[deck_key].pop_front()
+	deck_state[hand_key].append(instance_id)
+
+	deck_state_changed.emit(deck_state)
+	return instance_id
+
+func move_card(from_zone: String, to_zone: String, instance_id: String) -> void:
 	if deck_state.has(from_zone) and deck_state.has(to_zone):
-		if card_id in deck_state[from_zone]:
-			deck_state[from_zone].erase(card_id)
-			deck_state[to_zone].append(card_id)
+		if instance_id in deck_state[from_zone]:
+			deck_state[from_zone].erase(instance_id)
+			deck_state[to_zone].append(instance_id)
 			deck_state_changed.emit(deck_state)
 
-func cleanup_play_zone(player: String) -> void:
-	var play_key = "%s_play" % player
-	var discard_key = "%s_discard" % player
+func cleanup_play_zone(side: String) -> void:
+	var play_key = "%s_play" % side
+	var discard_key = "%s_discard" % side
 
-	for card_id in deck_state[play_key]:
-		deck_state[discard_key].append(card_id)
+	for instance_id in deck_state[play_key]:
+		deck_state[discard_key].append(instance_id)
+
 	deck_state[play_key].clear()
 	deck_state_changed.emit(deck_state)
 
-func reshuffle_discard_into_deck(player: String) -> void:
-	var deck_key = "%s_deck" % player
-	var discard_key = "%s_discard" % player
+func reshuffle_discard_into_deck(side: String) -> void:
+	var deck_key = "%s_deck" % side
+	var discard_key = "%s_discard" % side
 
-	for card_id in deck_state[discard_key]:
-		deck_state[deck_key].append(card_id)
+	for instance_id in deck_state[discard_key]:
+		deck_state[deck_key].append(instance_id)
+
 	deck_state[discard_key].clear()
 	deck_state[deck_key].shuffle()
+
 	deck_state_changed.emit(deck_state)
-	
-# DeckManager.gd
 
+#   SAVE DECK (TEMPLATE IDS ONLY)
 func save_deck_to_json(side: String, path: String) -> void:
-	# side should be "player" or "opponent"
-	var side_keys = []
-	for key in deck_state.keys():
-		if key.begins_with(side + "_"):
-			side_keys.append(key)
+	var deck_key = "%s_deck" % side
+	var template_ids: Array = []
 
-	var side_state: Dictionary = {}
-	for key in side_keys:
-		side_state[key] = deck_state[key]
+	for instance_id in deck_state[deck_key]:
+		var template_id = instance_lookup.get(instance_id, "")
+		if template_id != "":
+			template_ids.append(template_id)
+
+	var data := {
+		"deck": template_ids
+	}
 
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	if file:
-		var json_string = JSON.stringify(side_state, "\t") # pretty print
-		file.store_string(json_string)
+		file.store_string(JSON.stringify(data, "\t"))
 		file.close()
-		print("DeckManager: Saved %s deck to %s" % [side, path])
+		_log("DeckManager: Saved %s deck → %s" % [side, path])
 	else:
-		push_warning("DeckManager: Could not open file for saving: %s" % path)
+		_warn("DeckManager: Could not save deck to %s" % path)
 
-
+#   LOAD DECK (REGENERATE INSTANCE IDS)
 func load_deck_from_json(side: String, path: String) -> void:
 	if not FileAccess.file_exists(path):
-		push_warning("DeckManager: No deck file at %s" % path)
+		_warn("DeckManager: No deck file at %s" % path)
 		return
 
 	var file = FileAccess.open(path, FileAccess.READ)
-	var content = file.get_as_text()
+	var result = JSON.parse_string(file.get_as_text())
 	file.close()
 
-	var result = JSON.parse_string(content)
-	if typeof(result) == TYPE_DICTIONARY:
-		for key in result.keys():
-			deck_state[key] = result[key]
-		deck_state_changed.emit(deck_state)
-		print("DeckManager: Loaded %s deck from %s" % [side, path])
-	else:
-		push_warning("DeckManager: Failed to parse JSON deck file: %s" % path)
+	if typeof(result) != TYPE_DICTIONARY:
+		_warn("DeckManager: Invalid JSON deck file")
+		return
 
-func get_deck_data(side: String) -> Array[CardData]:
-	var ids: Array = deck_state.get("%s_deck" % side, [])
-	var out: Array[CardData] = []
-	for instance_id in ids:
-		var template_id: String = instance_lookup.get(instance_id, "")
-		if template_id == "":
-			push_warning("DeckManager: No template for instance_id: %s" % instance_id)
-			continue
-		var data: CardData = base_cards.get(template_id, null)
-		if data == null:
-			push_warning("DeckManager: No CardData for template_id: %s" % template_id)
-			continue
-		out.append(data)
-	return out
+	var template_ids: Array = result.get("deck", [])
+	var deck_key = "%s_deck" % side
+
+	deck_state[deck_key] = []
+	instance_lookup.clear()
+
+	for template_id in template_ids:
+		if base_cards.has(template_id):
+			var instance_id = "%s_%d" % [template_id, randi()]
+			instance_lookup[instance_id] = template_id
+			deck_state

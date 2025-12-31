@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7qpxmc5d27ml"]
 
-[ext_resource type="Script" uid="uid://c5iv74tnupf3o" path="res://03_Scripts/07_Test_Scripts/DeckInspector.gd" id="1_k1g1n"]
+[ext_resource type="Script" uid="uid://dl7ijpmmataf2" path="res://03_Scripts/07_Test_Scripts/DeckInspectorTest.gd" id="1_wa4xx"]
 
 [node name="Node" type="Node"]
-script = ExtResource("1_k1g1n")
+script = ExtResource("1_wa4xx")
