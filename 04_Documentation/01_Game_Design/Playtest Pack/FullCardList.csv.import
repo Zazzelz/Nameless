@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cnl7klhpy0eo2"
+
+[deps]
+
+files=["res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Base Effect.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Wager Bonus.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Risk.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Flavour Text.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Phase.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Category.translation"]
+
+source_file="res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.csv"
+dest_files=["res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Base Effect.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Wager Bonus.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Risk.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Flavour Text.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Phase.translation", "res://04_Documentation/01_Game_Design/Playtest Pack/FullCardList.Category.translation"]
+
+[params]
+
+compress=true
+delimiter=0

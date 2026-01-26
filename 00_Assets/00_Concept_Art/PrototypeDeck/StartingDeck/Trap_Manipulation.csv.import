@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dk0bseavajhkk"
+
+[deps]
+
+files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Flavour Text.translation"]
+
+source_file="res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.csv"
+dest_files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Trap_Manipulation.Flavour Text.translation"]
+
+[params]
+
+compress=true
+delimiter=0

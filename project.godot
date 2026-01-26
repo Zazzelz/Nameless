@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 [autoload]
 
 GameContext="*res://03_Scripts/02_Core/01_GameBoard/GameContext.gd"
+DebugTools="*res://03_Scripts/03_UI/DebugTools.gd"
 
 [input]
 

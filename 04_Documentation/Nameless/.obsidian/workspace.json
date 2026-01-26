@@ -27,16 +27,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01_Game_Design/GDD/GDD Prototype v2.0.md",
+                "file": "08_Research/Research Dashboard.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GDD Prototype v2.0"
+              "title": "Research Dashboard"
+            }
+          },
+          {
+            "id": "002a059e68469ef5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09_Playtests/COMBAT PHYSICAL PLAYTEST RULE SHEET (PROTOTYPE).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "COMBAT PHYSICAL PLAYTEST RULE SHEET (PROTOTYPE)"
+            }
+          },
+          {
+            "id": "ce320a5a0ea4b9a1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09_Playtests/COMBAT PHYSICAL PLAYTEST RULE SHEET (PROTOTYPE).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "COMBAT PHYSICAL PLAYTEST RULE SHEET (PROTOTYPE)"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -222,52 +250,52 @@
       "pexels-banner:🚩 Pixel Banner Menu": false
     }
   },
-  "active": "30ff1d6324d3e31c",
+  "active": "002a059e68469ef5",
   "lastOpenFiles": [
-    "11_Templates/Boss Template.md",
-    "03_Bosses/Boss Dashboard.md",
+    "09_Playtests/Lessons Learned.md",
+    "09_Playtests/COMBAT PHYSICAL PLAYTEST RULE SHEET (PROTOTYPE).md",
+    "image-3.png",
+    "image-2.png",
+    "image-1.png",
+    "image.png",
+    "01_Game_Design/zz_debugging/Debug Audit - DeckInspector.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - Dice.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - TurnManager.gd.md",
+    "01_Game_Design/zz_debugging/Master Debug Category Map (All Scripts).md",
+    "01_Game_Design/zz_debugging/Debug Audit - DeckManager.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - CardFactory.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - Card.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit  - GameUI.gd.md",
+    "08_Research/Audio & Soundscape/Player and Adventurer Motif.md",
+    "Untitled 1.md",
+    "08_Research/Research Dashboard.md",
+    "Card.UI.md",
+    "01_Game_Design/zz_debugging/Debug Audit - ZoneManager.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - PlayZone.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - HandZone.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - DiscardZone.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - DeckZone.gd.md",
+    "01_Game_Design/zz_debugging/Debug Audit - CardGameManager.gd.md",
+    "Untitled.md",
+    "01_Game_Design/Narrative Structure.md",
+    "01_Game_Design/Game Design Dashboard.md",
     "01_Game_Design/GDD/GDD Prototype v2.0.md",
-    "00_Overview/Nameless - Project Overview.md",
-    "06_Concept_Art/Characters/Adventurer/Adventurer.md",
+    "01_Game_Design/zz_debugging",
+    "11_Templates/Boss Template.md",
     "Link Directory.base",
-    "11_Templates/Card Template.md",
-    "Untitled Kanban.md",
     "Pasted image 20251204224339.png",
     "GDD.png",
     "GDD2-1.png",
     "GDD2.png",
     "GDD-1.png",
-    "04_Cards/Card Dashboard.md",
-    "02_Worldbuilding/World Building Dashboard.md",
-    "02_Worldbuilding/NPCs.md",
-    "01_Game_Design/Mechanics/Combat.md",
-    "01_Game_Design/Mechanics/Exploration.md",
-    "01_Game_Design/Mechanics/Cards.md",
     "pixel-banner-images/NamelessBanner04.png",
-    "pixel-banner-images/NamelessBanner03.png",
-    "pixel-banner-images/NamelessBanner02.png",
-    "pixel-banner-images/NamelessBanner01.png",
     "pixel-banner-images",
-    "08_Research/Learning/Game Design Principles/Game Design Principles.md",
-    "1. Executive Summary.md",
-    "01_Game_Design/Game Design Dashboard.md",
     "01_Game_Design/GDD",
-    "08_Research/Learning/Tools & Tutorials/Tools & Techniques.md",
-    "08_Research/Learning/Narrative Design/Narrative Design.md",
-    "09_Playtests/Lessons Learned.md",
-    "08_Research/Research Dashboard.md",
-    "06_Concept_Art/Characters/NPCs/NPC.md",
-    "06_Concept_Art/Characters/Bosses/Bosses.md",
-    "05_Nodes/Node Dashboard.md",
-    "10_Reference_Library/Reference Library Dashboard.md",
     "10_Reference_Library/Untitled",
     "10_Reference_Library/Art References/Characters",
     "10_Reference_Library/Art References/Environmental References",
     "10_Reference_Library/Art References/Cards",
     "10_Reference_Library/UI_UX",
-    "10_Reference_Library/Art References",
-    "08_Research/Learning/Learning Dashboard.md",
-    "08_Research/Learning/Personal Notes",
-    "08_Research/Learning/Untitled.md"
+    "10_Reference_Library/Art References"
   ]
 }

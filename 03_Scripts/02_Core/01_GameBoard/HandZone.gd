@@ -1,113 +1,97 @@
-extends Node3D
-class_name HandZone
+extends Marker3D
+class_name HandZone  
 
-# === Debug Toggle ===
-@export var debug_enabled: bool = false
+@export var zone_owner: String = "player"
 
-func _log(msg: String) -> void:
-	if debug_enabled:
-		print(msg)
+# How wide the fan should be (meters)
+@export var max_hand_width := 2.0
 
-func _warn(msg: String) -> void:
-	if debug_enabled:
-		push_warning(msg)
+# Angle to tilt the cards toward camera
+@export var tilt_angle := -70.0
 
-@export var zone_owner: String = "player" # "player" or "opponent"
-@export var layout_mode: String = "camera_fan" # or "zone_offset"
-@export var hand_offset: Vector3 = Vector3(0, -1.6, 5)
-@export var anchor_node: Node3D
-@export var card_scale: Vector3 = Vector3(0.3, 0.5, 0.5)
-@export var spread: float = 0.2
+# Total fan spread in degrees
+@export var fan_angle_deg := 30.0
+
+# Z stacking offset between left→right cards
+@export var max_z_offset := 0.05
+
+# Hand scaling
+@export var hand_scale := 1.0         # Normal card scale
+@export var hover_hand_scale := 0.85  # Shrink hovered card
+
+var hovered_card: Card = null
 
 func _ready() -> void:
 	set_meta("zone_type", "hand")
 	set_meta("owner", zone_owner)
-	_log("HandZone ready: %s (%s)" % [name, zone_owner])
+	layout_hand()  # Initial layout
+
+# ------------------------------------------------------------------------------
 
 func layout_hand() -> void:
-	match layout_mode:
-		"camera_fan":
-			_log("Laying out hand in camera_fan mode")
-			_layout_camera_fan()
-		"zone_offset":
-			_log("Laying out hand in zone_offset mode")
-			_layout_zone_centered()
-		_:
-			_warn("Unknown layout_mode: %s" % layout_mode)
-
-func _layout_camera_fan() -> void:
-	var anchor := anchor_node if anchor_node else get_viewport().get_camera_3d()
-	if not anchor:
-		_warn("No anchor found for camera_fan layout")
+	var cards := get_children().filter(func(c): return c is Card)
+	if cards.size() == 0:
 		return
 
-	var right := anchor.global_transform.basis.x.normalized()
-	var forward := -anchor.global_transform.basis.z.normalized()
-	var base := anchor.global_transform.origin + forward * 1.0 + Vector3(0.08, hand_offset.y + 1.0, 0)
+	var count := cards.size()
+	var max_fan_angle := deg_to_rad(fan_angle_deg)
 
-	var cards: Array[Node3D] = get_children().filter(
-		func(c): return c is Node3D and c.has_method("set_card_data")
-	)
-	var total := cards.size()
+	for i in range(count):
+		var card: Card = cards[i]
 
-	_log("Camera fan layout: %d cards" % total)
+		# Assign hand index
+		card.set_meta("hand_index", i)
 
-	for i in range(total):
-		var offset := (i - (total - 1) / 2.0) * spread
-		var pos := base + right * offset
-		var card := cards[i]
+		# Normalized position in fan: -0.5 to 0.5
+		var t := 0.0
+		if count > 1:
+			t = float(i) / float(count - 1) - 0.5
 
-		card.set_as_top_level(true)
-		card.global_transform.origin = pos
-		card.base_position = pos
-		card.scale = card_scale
-		card.rotation = Vector3(deg_to_rad(-20), anchor.global_transform.basis.get_euler().y, 0)
+		# Angle offset for outward fan
+		var angle_offset := t * max_fan_angle
 
-		var mesh := card.get_node_or_null("FrontFace")
-		if mesh:
-			mesh.scale = Vector3.ONE
-			mesh.rotation_degrees = Vector3.ZERO
+		# Position along arc
+		var radius := max_hand_width / max_fan_angle
+		var x_pos := sin(angle_offset) * radius
+		var z_pos := -cos(angle_offset) * radius + radius
 
-func _layout_zone_centered() -> void:
-	var cards: Array[Node3D] = get_children().filter(
-		func(c): return c is Node3D and c.has_method("set_card_data")
-	)
-	if cards.is_empty():
-		_log("Zone-centered layout skipped: no cards")
-		return
+		# Stack left-to-right: leftmost card on top
+		var stack_z := (count - 1 - i) * max_z_offset
+		z_pos += stack_z
 
-	var pos := global_transform.origin + Vector3(0, 2, 0)
-	var card: Node3D = cards.back()
+		var target_pos := Vector3(x_pos, 0, z_pos)
+		var target_rot := Vector3(deg_to_rad(tilt_angle), -angle_offset, 0)
 
-	card.set_as_top_level(true)
-	card.global_transform.origin = pos
-	card.base_position = pos
-	card.scale = card_scale
-	card.rotation_degrees = Vector3(0, 90, 0)
+		# Store base layout for hover effects
+		card.set_meta("layout_pos", target_pos)
+		card.set_meta("layout_rot", target_rot)
 
-	var mesh: MeshInstance3D = card.get_node_or_null("FrontFace")
-	if mesh:
-		mesh.scale = Vector3.ONE
-		mesh.rotation_degrees = Vector3.ZERO
+		# Set initial target for smooth movement
+		card.set_meta("target_pos", target_pos)
+		card.set_meta("target_rot", target_rot)
 
-	_log("Zone-centered layout applied to last card: %s" % card.name)
+		# Apply initial transform
+		card.transform = Transform3D(Basis()
+										.rotated(Vector3(1,0,0), target_rot.x)
+										.rotated(Vector3(0,1,0), target_rot.y)
+										.rotated(Vector3(0,0,1), target_rot.z),
+									target_pos)
+		
+		# Reset scale
+		card.scale = Vector3(hand_scale, hand_scale, hand_scale)
 
-func shift_hand_backwards(offset: float = -1.5) -> void:
+	DebugTools.log("HandZone.Layout", "[%s] Hand laid out with %d cards" % [zone_owner, count])
+
+# ------------------------------------------------------------------------------
+
+# Update scales when a card is hovered or unhovered
+func update_hand_hover(hovered: Card) -> void:
+	hovered_card = hovered
 	for card in get_children():
-		if card is Node3D and card.has_method("is_dragging") and not card.is_dragging():
-			var tween := create_tween()
-			var new_pos: Vector3 = card.global_transform.origin + Vector3(0, 0, offset)
-			tween.tween_property(card, "global_transform:origin", new_pos, 0.3)
-
-	_log("Shifted hand backwards by %f" % offset)
-
-func reset_hand_positions() -> void:
-	for card in get_children():
-		if card is Node3D and card.has_method("base_position"):
-			var tween := create_tween()
-			tween.tween_property(card, "global_transform:origin", card.base_position, 0.3)
-
-	_log("Reset hand positions")
-
-func has_cards() -> bool:
-	return get_children().any(func(c): return c is Node3D and c.has_method("set_card_data"))
+		if card is Card:
+			if card == hovered_card:
+				# Hovered card shrinks
+				card.scale = Vector3(hover_hand_scale, hover_hand_scale, hover_hand_scale)
+			else:
+				# Other cards return to normal scale
+				card.scale = Vector3(hand_scale, hand_scale, hand_scale)

@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://fd7ra5qrkfku"]
+[gd_scene load_steps=9 format=3 uid="uid://fd7ra5qrkfku"]
 
 [ext_resource type="Script" uid="uid://dr28c52a0cdek" path="res://03_Scripts/07_Test_Scripts/GameBoardTest.gd" id="1_7ldui"]
 [ext_resource type="Script" uid="uid://2w42xjifmxy5" path="res://03_Scripts/02_Core/01_GameBoard/DeckManager.gd" id="1_lth2e"]
 [ext_resource type="Script" uid="uid://dqx8am220r4dr" path="res://03_Scripts/05_Cards/CardFactory.gd" id="2_7ldui"]
 [ext_resource type="PackedScene" uid="uid://dnk8sxv4riweu" path="res://02_Scenes/06_GameBoards/ZoneManager.tscn" id="3_ujlun"]
+[ext_resource type="Script" uid="uid://cmxjhbqs0m7a3" path="res://03_Scripts/02_Core/01_GameBoard/DeckZone.gd" id="5_1x4nr"]
+[ext_resource type="Script" uid="uid://0mcfubmafmqh" path="res://03_Scripts/02_Core/01_GameBoard/HandZone.gd" id="6_an5rs"]
+[ext_resource type="Script" uid="uid://cp1iti7h6p4o5" path="res://03_Scripts/02_Core/01_GameBoard/PlayZone.gd" id="7_hy20t"]
+[ext_resource type="Script" uid="uid://ba0cnlxlq2meg" path="res://03_Scripts/02_Core/01_GameBoard/DiscardZone.gd" id="8_n5bcv"]
 
 [node name="GameBoardTest" type="Node3D"]
 script = ExtResource("1_7ldui")
@@ -23,6 +27,36 @@ script = ExtResource("2_7ldui")
 
 [node name="ZoneManager" parent="." instance=ExtResource("3_ujlun")]
 
+[node name="PlayerDeckZone" parent="ZoneManager/PlayerNode" index="0"]
+transform = Transform3D(-1, -7.5710346e-08, -4.3711385e-08, 0, 0.49999997, -0.86602545, 8.742278e-08, -0.86602545, -0.49999997, -2.0203452, 0, 0.56320703)
+script = ExtResource("5_1x4nr")
+
+[node name="PlayerHandZone" parent="ZoneManager/PlayerNode" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.75036496, -0.6610238, 0, 0.6610238, 0.75036496, 0, 0, 0)
+script = ExtResource("6_an5rs")
+
+[node name="PlayerPlayZone" parent="ZoneManager/PlayerNode" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.17364822, -0.9848077, 0, 0.9848077, 0.17364822, 0, 0, -0.77624226)
+script = ExtResource("7_hy20t")
+
+[node name="PlayerDiscardZone" parent="ZoneManager/PlayerNode" index="3"]
+transform = Transform3D(-1, -7.5710346e-08, -4.3711385e-08, 0, 0.49999997, -0.86602545, 8.742278e-08, -0.86602545, -0.49999997, 0.8, 0, 0.574)
+script = ExtResource("8_n5bcv")
+
+[node name="OpponentDeckZone" parent="ZoneManager/OpponentNode" index="0"]
+script = ExtResource("5_1x4nr")
+
+[node name="OpponentHandZone" parent="ZoneManager/OpponentNode" index="1"]
+script = ExtResource("6_an5rs")
+
+[node name="OpponentPlayZone" parent="ZoneManager/OpponentNode" index="2"]
+script = ExtResource("7_hy20t")
+
+[node name="OpponentDiscardZone" parent="ZoneManager/OpponentNode" index="3"]
+script = ExtResource("8_n5bcv")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.7071068, 0, -0.7071068, 0.70710677, 0, 1, 2)
+transform = Transform3D(0.98041576, -0.1118898, 0.1620664, 0.08238786, 0.9804816, 0.17851654, -0.17887731, -0.16166812, 0.97049797, -0.09255099, 0.3249297, 4.7891717)
 fov = 125.38508
+
+[editable path="ZoneManager"]

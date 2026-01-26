@@ -1,17 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnk8sxv4riweu"]
+[gd_scene load_steps=6 format=3 uid="uid://dnk8sxv4riweu"]
 
 [ext_resource type="Script" uid="uid://kg2ko3okrkdi" path="res://03_Scripts/02_Core/01_GameBoard/ZoneManager.gd" id="1_c3kki"]
+[ext_resource type="Script" uid="uid://cmxjhbqs0m7a3" path="res://03_Scripts/02_Core/01_GameBoard/DeckZone.gd" id="2_arc0i"]
+[ext_resource type="Script" uid="uid://0mcfubmafmqh" path="res://03_Scripts/02_Core/01_GameBoard/HandZone.gd" id="3_byuvd"]
+[ext_resource type="Script" uid="uid://cp1iti7h6p4o5" path="res://03_Scripts/02_Core/01_GameBoard/PlayZone.gd" id="4_sv8wg"]
+[ext_resource type="Script" uid="uid://ba0cnlxlq2meg" path="res://03_Scripts/02_Core/01_GameBoard/DiscardZone.gd" id="5_f1n0v"]
 
 [node name="ZoneManager" type="Node3D"]
 script = ExtResource("1_c3kki")
 
-[node name="PlayerDeckZone" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1098832, 0, 0.56320703)
+[node name="PlayerNode" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.373753)
 
-[node name="PlayerHandZone" type="Marker3D" parent="."]
+[node name="PlayerDeckZone" type="Marker3D" parent="PlayerNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9856373, 0, 2.076891)
+script = ExtResource("2_arc0i")
+
+[node name="PlayerHandZone" type="Marker3D" parent="PlayerNode"]
+script = ExtResource("3_byuvd")
+
+[node name="PlayerPlayZone" type="Marker3D" parent="PlayerNode"]
+script = ExtResource("4_sv8wg")
+
+[node name="PlayerDiscardZone" type="Marker3D" parent="PlayerNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.346098, 0, 0.5739665)
+script = ExtResource("5_f1n0v")
+
+[node name="OpponentNode" type="Node3D" parent="."]
+transform = Transform3D(-0.9994945, 0, 0.03179451, 0, 1, 0, -0.03179451, 0, -0.9994945, 0, 0, -3.0156894)
+
+[node name="OpponentDeckZone" type="Marker3D" parent="OpponentNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1539197, 0, 1.735569)
+script = ExtResource("2_arc0i")
+zone_owner = "opponent"
+
+[node name="OpponentHandZone" type="Marker3D" parent="OpponentNode"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9308238)
+script = ExtResource("3_byuvd")
+zone_owner = "opponent"
 
-[node name="PlayerPlayZone" type="Marker3D" parent="."]
+[node name="OpponentPlayZone" type="Marker3D" parent="OpponentNode"]
+script = ExtResource("4_sv8wg")
+zone_owner = "opponent"
 
-[node name="PlayerDiscardZone" type="Marker3D" parent="."]
+[node name="OpponentDiscardZone" type="Marker3D" parent="OpponentNode"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9145012, 0, 0.5739665)
+script = ExtResource("5_f1n0v")
+zone_owner = "opponent"

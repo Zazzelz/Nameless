@@ -1,111 +1,117 @@
 extends Node3D
 class_name CardGameManager
 
-# === Debug Toggle ===
-@export var debug_enabled: bool = false
+@export var player_deck_manager_path: NodePath
+@export var card_factory_path: NodePath
+@export var zone_manager_path: NodePath
+@export var camera_path: NodePath
+@export var cards_to_draw_per_action: int = 5
 
-func _log(msg: String) -> void:
-	if debug_enabled:
-		print(msg)
+var player_deck_manager: DeckManager
+var card_factory: CardFactory
+var zone_manager: ZoneManager
+var camera: Camera3D
+var zones: Dictionary = {}
 
-func _warn(msg: String) -> void:
-	if debug_enabled:
-		push_warning(msg)
+var has_drawn_this_turn: bool = false
+var game_started: bool = false
 
-# === Managers & Factories ===
-@onready var player_deck_manager: DeckManager = find_child("PlayerDeckManager", true, false)
-@onready var opponent_deck_manager: DeckManager = find_child("OpponentDeckManager", true, false)
-@onready var card_factory: CardFactory = find_child("CardFactory", true, false)
-@onready var zone_manager: ZoneManager = find_child("ZoneManager", true, false)
-
-# === Zones ===
-@onready var zones: Dictionary = {
-	"player": {
-		"deck": find_child("PlayerDeckZone", true, false) as Node3D,
-		"hand": find_child("PlayerHandZone", true, false) as Node3D,
-		"play": find_child("PlayerPlayZone", true, false) as Node3D,
-		"discard": find_child("PlayerDiscardZone", true, false) as Node3D
-	},
-	"opponent": {
-		"deck": find_child("OpponentDeckZone", true, false) as Node3D,
-		"hand": find_child("OpponentHandZone", true, false) as Node3D,
-		"play": find_child("OpponentPlayZone", true, false) as Node3D,
-		"discard": find_child("OpponentDiscardZone", true, false) as Node3D
-	}
-}
 
 func _ready() -> void:
-	_log("CardGameManager is ready")
-
-	GameContext.board = self
-	GameContext.player_play_zone = zones["player"]["play"]
-	GameContext.opponent_play_zone = zones["opponent"]["play"]
-
-	card_factory.card_clicked.connect(_on_card_clicked)
-	card_factory.card_dropped.connect(_on_card_dropped)
-
-	_setup_game()
-
-# === Game Setup ===
-func _setup_game() -> void:
-	_log("Setting up game…")
-
-	player_deck_manager.initialize_deck("player")
-	opponent_deck_manager.initialize_deck("opponent")
-
 	add_to_group("CardGameManager")
 
-# === Interaction ===
-func _on_card_clicked(card: Card) -> void:
-	if not card.current_zone:
+	player_deck_manager = get_node(player_deck_manager_path)
+	card_factory = get_node(card_factory_path)
+	zone_manager = get_node(zone_manager_path)
+	camera = get_node(camera_path)
+
+	zone_manager.set_camera(camera)
+
+	await get_tree().process_frame
+	zones = zone_manager.zones
+
+	if not player_deck_manager.deck_state_changed.is_connected(_on_deck_state_changed):
+		player_deck_manager.deck_state_changed.connect(_on_deck_state_changed)
+
+	card_factory.deck_manager = player_deck_manager
+
+	_connect_deck_signals()
+
+	DebugTools.log("CardGameManager.Init", "CardGameManager ready — waiting for UI to start match")
+
+
+func start_game() -> void:
+	if game_started:
+		DebugTools.warn("CardGameManager.Errors", "Game already started")
 		return
 
-	var owner: String = card.zone_owner
-	var deck_zone: Node3D = zones[owner]["deck"]
+	await get_tree().process_frame
+	await get_tree().process_frame
 
-	if card.current_zone == deck_zone:
-		_log("Card clicked in deck: drawing 5 for %s" % owner)
-		_draw_cards(owner, 5)
+	DebugTools.log("CardGameManager.GameStart", "Starting game — initializing decks")
+	game_started = true
 
-func _draw_cards(owner: String, count: int) -> void:
-	var deck_manager: DeckManager = player_deck_manager if owner == "player" else opponent_deck_manager
-	_log("Drawing %d cards for %s" % [count, owner])
-	deck_manager.draw_cards(owner, count)
+	player_deck_manager.initialize_deck("player")
+	player_deck_manager.initialize_deck("opponent")
 
-func _on_card_dropped(card: Node3D, target_zone: Node3D) -> void:
-	var resolved_card: Card = card if card is Card else _resolve_card_from_node(card)
+	DebugTools.log("CardGameManager.GameStart", "Decks initialized")
 
-	if resolved_card:
-		var deck_manager: DeckManager = (
-			player_deck_manager if resolved_card.zone_owner == "player"
-			else opponent_deck_manager
+
+func _connect_deck_signals() -> void:
+	for zone_key in zones.keys():
+		var zone: Node = zones[zone_key]
+
+		if zone.has_signal("deal_requested"):
+			if not zone.deal_requested.is_connected(_on_deal_requested):
+				zone.deal_requested.connect(_on_deal_requested)
+
+				DebugTools.log(
+					"CardGameManager.Signals",
+					"%s → Connected deal_requested" % zone.get_meta("owner")
+				)
+
+
+func _on_deck_state_changed(deck_state: Dictionary, side: String) -> void:
+	if not game_started:
+		return
+
+	card_factory.update_cards_for_side(deck_state, zones, side)
+
+
+func _on_deal_requested() -> void:
+	if not game_started:
+		DebugTools.warn("CardGameManager.Errors", "Cannot deal — game not started")
+		return
+
+	if has_drawn_this_turn:
+		DebugTools.warn("CardGameManager.Errors", "Player already drew this turn")
+		return
+
+	DebugTools.log("CardGameManager.Dealing", "Player requested a draw")
+	_deal_card_to_player(cards_to_draw_per_action)
+	has_drawn_this_turn = true
+
+
+func _deal_card_to_player(count: int) -> void:
+	DebugTools.log("CardGameManager.Dealing", "Requested %d card(s)" % count)
+
+	var max_available: int = player_deck_manager.deck_state["player_deck"].size()
+	var actual_count: int = min(count, max_available)
+
+	for i in range(actual_count):
+		var live_deck: Array = player_deck_manager.deck_state["player_deck"]
+		if live_deck.is_empty():
+			break
+
+		var instance_id: String = live_deck.front()
+		player_deck_manager.move_card("player_deck", "player_hand", instance_id)
+
+		DebugTools.log(
+			"CardGameManager.Dealing",
+			"player → Requested move of instance_id %s from deck → hand" % instance_id
 		)
 
-		_log("Card dropped: %s → %s" % [resolved_card.instance_id, target_zone.name])
-		deck_manager.move_card_to_zone(resolved_card.card_id, target_zone.name)
-	else:
-		_warn("Dropped node is not a Card: %s" % card.name)
-
-func _resolve_card_from_node(node: Node) -> Card:
-	var current: Node = node
-	while current and not (current is Card) and current.get_parent():
-		current = current.get_parent()
-	return current if current is Card else null
-
-# === Cleanup & Reshuffle ===
-func cleanup_play_zones() -> void:
-	for owner in ["player", "opponent"]:
-		var deck_manager: DeckManager = (
-			player_deck_manager if owner == "player"
-			else opponent_deck_manager
-		)
-		_log("Cleaning play zone for %s" % owner)
-		deck_manager.cleanup_play_zone(owner)
-
-func check_and_reshuffle_deck(owner: String) -> void:
-	var deck_manager: DeckManager = (
-		player_deck_manager if owner == "player"
-		else opponent_deck_manager
+	DebugTools.log(
+		"CardGameManager.Dealing",
+		"After → Deck: %s" % str(player_deck_manager.deck_state["player_deck"])
 	)
-	_log("Reshuffling discard into deck for %s" % owner)
-	deck_manager.reshuffle_discard_into_deck(owner)

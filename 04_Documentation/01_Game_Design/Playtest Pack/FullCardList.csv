@@ -1,0 +1,31 @@
+﻿Name,Base Effect,Wager Bonus,Risk,Flavour Text,Phase,Category
+Fortune’s Tilt,Roll 2 dice. Take the higher roll,"If opponent has any◗ cards in hand, view 1",⚡⚡⚡ ,Luck favours the bold — but fate always watches.,Phase 1,Manipulation
+Fateful Curse,Opponent rolls 2 dice. They must take the lower roll,Opponent must reroll their dice next round,⚡⚡⚡ ,"Twist their fortune, then twist it again.",Phase 1,Manipulation
+Loaded Choice,Roll 3 dice this round. Secretly choose 2 to keep and discard the third,Opponent must reroll 1 die,⚡⚡ ,Stack the odds. Hide the truth.,Phase 1,Manipulation
+Crippled Chance,Opponent rolls 2 dice but must discard the higher before revealing,View the top card of opponent’s deck,⚡⚡⚡ ,Their best roll never sees the light.,Phase 1,Disruption
+Dice Drain,Opponent rolls 1 fewer die (minimum 1),Opponent reveals 1 random card from hand,⚡⚡ ,Starve their chances. Watch them scramble.,Phase 1,Disruption
+Blind Gambit,"Roll 1 secret die (you do not look). After seeing opponent’s roll, you may replace your roll with it",Opponent reveals their wager next round,⚡⚡ ,Play blind. Strike true.,Phase 1,Fate
+Silent Setup,You may play your◗ card face‑down until it resolves,,,The quiet ones hold the sharpest secrets,Phase 1,Fate
+Dice Shift,Swap one of your dice with one of the opponent’s before rolling,Opponent reveals a ◖ from their hand,⚡⚡,Trade chaos for clarity. Or vice versa.,Phase 1,Insight
+Phase Disruptor,Opponent cannot play a ◖card next round,Play 1 extra ◖ card this round,⚡⚡⚡ ,Break their rhythm. Rewrite the tempo.,Phase 1,Tempo
+Quick Reflex,"If opponent plays no ◖card, play 1 extra ◖ card",Draw 1 card,⚡ ,Strike when they hesitate. Move before they blink.,Phase 1,Tempo
+Lunar Precision,"If your die is lower than the opponent’s, add +1.","If you win the wager, add an extra +1.",⚡⚡ ,“The moon lifts those who fall behind.”,Phase 2,Manipulation
+Star‑Tilt Blessing,"If your die is equal to the opponent’s, gain +2.","If you lose the wager, you may reroll your die.",⚡⚡⚡,"“When stars align, destiny leans your way.”",Phase 2,Manipulation
+Fate Lock,Opponent cannot modify their die this round.,Opponent reveals the next  ◖card they draw.,⚡ ,“Some paths close before they’re ever walked.”,Phase 2,Disruption
+Shadow Cut,Reduce opponent’s final total by –1.,"If you win the wager, reduce by –2 next round.",⚡⚡⚡ ,“A single snip unravels the strongest thread.”,Phase 2,Disruption
+Moon’s Insight,Choose whether your modifier applies first or second.,"If you lose the wager, draw 1 extra card next round.",⚡⚡ ,"“The moon reveals not answers, but timing.”",Phase 2,Insight
+Echo Reading,"If you lost the wager, copy opponent’s Phase 2 effect (except Fate cards).",,,“Every action leaves an echo for those who listen.”,Phase 2,Insight
+Veiled Outcome,"If you lose the round, gain +2. (Face‑down.)","If you win the wager, gain +1 instead.",⚡ ,“Some blessings hide behind defeat.”,Phase 2,Fate
+Twilight Swap,"After both dice are revealed, you may swap your die with the opponent’s.","If you would lose the wager, this card cannot be blocked.",⚡⚡,"“In twilight, even certainty",Phase 2,Fate
+Lunar Momentum,"If you would win this round, gain +1 to your next round’s die.",,,“Victory gathers speed like a waxing moon.”,Phase 2,Tempo
+Clockbind ,"If your die is higher than the opponent’s, they have - 1 next round.","If you win the wager, the have -2 instead.",⚡⚡⚡ ,“Time punishes those who fall behind.”,Phase 2,Tempo
+Moonbind Snare,"Next round: If opponent rolls a 6, reduce their die by –2.",,⚡⚡⚡,"“What they hold back, you pull forward.”",Trap,Manipulation
+Mirror Hex,Next round: The first negative effect your opponent applies to you is reflected back onto them.,,⚡⚡⚡,“The curse returns to the hand that cast it.”,Trap,Manipulation
+Thread Sever,"Next round: If opponent would win the wager, cancel their wager bonus.",,⚡⚡⚡⚡,“A single cut can unravel a thread.”,Trap,Disruption
+Lunar Backlash,"Next round: If opponent reduces your die, reduce theirs by the same amount.",,⚡⚡⚡,“Every cut leaves a twin scar.”,Trap,Disruption
+Star Glimpse,"Next round: If opponent's die matches yours, view their hand.",,⚡⚡⚡,“The stars see all.”,Trap,Insight
+Moonshield Reading,"Next round: If opponent plays a Disruption card, its effect is prevented.",,⚡⚡,“The moon shines through the lies.”,Trap,Insight
+Shared Burden,"Next round: If you take any negative modifier, your opponent takes the same effect",,⚡⚡,“Pain shared is pain returned.”,Trap,Fate
+Twilight Breach,"Next round: If you would lose the round, swap your die with the opponent's before totals are final.",,⚡⚡⚡⚡,“The moon is a door.”,Trap,Fate
+Clock Snare,"Next round: If opponent skips a play, skip again.",,⚡⚡⚡,“Time is a thread.”,Trap,Tempo
+Echoed Loss,"Next round: If you lose the round, opponent takes -3 damage",,⚡⚡,“Your fall becomes their stumble.”,Trap,Tempo

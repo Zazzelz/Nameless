@@ -1,20 +1,18 @@
 extends Node
 class_name TurnManager
 
-# === Debug Toggle ===
-@export var debug_enabled: bool = false
+# ------------------------------------------------------------------------------
+# TurnManager
+# Controls the full turn‑based flow of the match:
+# - Match start and cancellation
+# - Phase transitions
+# - Player and enemy turn sequencing
+# - Dice phase
+# - Round resolution
+# - Game over state
+# ------------------------------------------------------------------------------
 
-func _log(msg: String) -> void:
-	if debug_enabled:
-		print(msg)
-
-func _warn(msg: String) -> void:
-	if debug_enabled:
-		push_warning(msg)
-
-var card_game_manager: CardGameManager
-
-# === Phase Enum ===
+# --- Phase Enum ---------------------------------------------------------------
 enum Phase {
 	BEGIN,
 	PLAYER_TURN,
@@ -26,50 +24,76 @@ enum Phase {
 	GAME_OVER
 }
 
-# === Signals ===
+# --- Signals ------------------------------------------------------------------
 signal phase_changed(new_phase: Phase)
 
-# === State ===
+# --- State --------------------------------------------------------------------
 var current_phase: Phase = Phase.BEGIN
 var round_number: int = 1
+var card_game_manager: CardGameManager
 
 @onready var game_ui: Control = null
+
+
+# ------------------------------------------------------------------------------
+# Initialization
+# ------------------------------------------------------------------------------
 
 func _ready() -> void:
 	add_to_group("TurnManager")
 	call_deferred("_late_init")
 
+
 func _late_init() -> void:
-	var ui_nodes := get_tree().get_nodes_in_group("GameUI")
+	# Connect GameUI
+	var ui_nodes: Array = get_tree().get_nodes_in_group("GameUI")
 	if ui_nodes.size() > 0:
 		game_ui = ui_nodes[0]
 		game_ui.start_match_confirmed.connect(_on_start_match_confirmed)
 		game_ui.start_match_cancelled.connect(_on_start_match_cancelled)
-		_log("GameUI connected to TurnManager")
-	else:
-		_warn("GameUI not found in group")
 
-	var game_nodes := get_tree().get_nodes_in_group("CardGameManager")
+		DebugTools.log("TurnManager.Connect", "GameUI connected to TurnManager")
+	else:
+		DebugTools.warn("TurnManager.Errors", "GameUI not found in group")
+
+	# Connect CardGameManager
+	var game_nodes: Array = get_tree().get_nodes_in_group("CardGameManager")
 	if game_nodes.size() > 0:
 		card_game_manager = game_nodes[0]
-	else:
-		_warn("CardGameManager not found in group")
 
-# === Match Start ===
+		DebugTools.log("TurnManager.Connect", "CardGameManager connected to TurnManager")
+	else:
+		DebugTools.warn("TurnManager.Errors", "CardGameManager not found in group")
+
+
+# ------------------------------------------------------------------------------
+# Match Start / Cancel
+# ------------------------------------------------------------------------------
+
 func _on_start_match_confirmed() -> void:
+	if card_game_manager == null:
+		DebugTools.warn("TurnManager.Errors", "Cannot start match — CardGameManager is NULL")
+		return
+
 	round_number = 1
-	card_game_manager._setup_game()
+	card_game_manager.start_game()
 	_set_phase(Phase.PLAYER_TURN)
 
+
 func _on_start_match_cancelled() -> void:
-	_log("Match cancelled. Quitting game")
+	DebugTools.log("TurnManager.Flow", "Match cancelled — quitting game")
 	get_tree().quit()
 
-# === Phase Control ===
+
+# ------------------------------------------------------------------------------
+# Phase Control
+# ------------------------------------------------------------------------------
+
 func _set_phase(new_phase: Phase) -> void:
 	current_phase = new_phase
 	emit_signal("phase_changed", current_phase)
-	_log("Phase changed → %s" % str(new_phase))
+
+	DebugTools.log("TurnManager.Phase", "Phase changed → %s" % str(new_phase))
 
 	match current_phase:
 		Phase.BEGIN:
@@ -89,59 +113,81 @@ func _set_phase(new_phase: Phase) -> void:
 		Phase.GAME_OVER:
 			_handle_game_over()
 
-# === Phase Handlers ===
+
+# ------------------------------------------------------------------------------
+# Phase Handlers
+# ------------------------------------------------------------------------------
+
 func _handle_begin_phase() -> void:
 	if game_ui:
 		game_ui.show_phase_message("Welcome! Ready to begin?")
 		game_ui.enable_dice_input(false)
 
+
 func _handle_player_turn() -> void:
 	if game_ui:
-		game_ui.show_phase_message("Phase One: Play Pre-Roll cards")
+		game_ui.show_phase_message("Phase One: Play Pre‑Roll cards")
 		game_ui.show_end_phase_button(true)
 		game_ui.enable_dice_input(false)
 		game_ui.enable_card_input(true)
 
+
 func _handle_roll_dice() -> void:
-	_log("Phase Two: Roll the Dice")
+	DebugTools.log("TurnManager.Phase", "Phase Two: Roll the Dice")
+
 	if game_ui:
 		game_ui.show_phase_message("Phase Two: Roll the Dice", 4.0)
 		game_ui.enable_dice_input(true)
 		game_ui.enable_card_input(false)
 
+
 func _handle_game_over() -> void:
-	_log("Game Over")
+	DebugTools.log("TurnManager.Phase", "Game Over")
+
 	if game_ui:
 		game_ui.show_phase_message("Game Over")
 		game_ui.enable_dice_input(false)
 		game_ui.enable_card_input(false)
 
-# === Async Phase Handlers ===
+
+# ------------------------------------------------------------------------------
+# Async Phase Handlers
+# ------------------------------------------------------------------------------
+
 func _handle_enemy_turn() -> void:
-	_log("Enemy Turn begins")
+	DebugTools.log("TurnManager.Flow", "Enemy Turn begins")
+
 	if game_ui:
 		game_ui.show_phase_message("Enemy thinking...")
+
 	await get_tree().create_timer(2.0).timeout
 	_set_phase(Phase.ROLL_DICE)
 
+
 func _handle_player_turn_2() -> void:
-	_log("Phase Three: Play Post-Roll cards")
+	DebugTools.log("TurnManager.Flow", "Phase Three: Play Post‑Roll cards")
+
 	if game_ui:
 		await game_ui.preview_roll_outcome()
-		game_ui.show_phase_message("Phase Three: Play Post-Roll cards")
+		game_ui.show_phase_message("Phase Three: Play Post‑Roll cards")
 		game_ui.show_end_phase_button(true)
 		game_ui.enable_dice_input(false)
 		game_ui.enable_card_input(true)
 
+
 func _handle_enemy_turn_2() -> void:
-	_log("Enemy reacts…")
+	DebugTools.log("TurnManager.Flow", "Enemy reacts…")
+
 	if game_ui:
 		game_ui.show_phase_message("Enemy reacting...")
+
 	await get_tree().create_timer(2.0).timeout
 	_set_phase(Phase.RESOLVE)
 
+
 func _handle_resolve_phase() -> void:
-	_log("Resolving round outcome…")
+	DebugTools.log("TurnManager.Resolve", "Resolving round outcome…")
+
 	if game_ui:
 		game_ui.show_phase_message("Resolving round outcome...", 3.0)
 		game_ui.enable_dice_input(false)
@@ -149,6 +195,7 @@ func _handle_resolve_phase() -> void:
 
 		await game_ui.check_results()
 
+		# Board cleanup
 		if GameContext.board:
 			var board := GameContext.board
 			board.cleanup_play_zones()
@@ -158,6 +205,7 @@ func _handle_resolve_phase() -> void:
 		await get_tree().create_timer(2.0).timeout
 		game_ui._clear_result_labels()
 
+		# Game over check
 		if game_ui.check_game_over():
 			_set_phase(Phase.GAME_OVER)
 		else:
@@ -166,15 +214,22 @@ func _handle_resolve_phase() -> void:
 			await get_tree().create_timer(2.0).timeout
 			_set_phase(Phase.PLAYER_TURN)
 
-# === Public Helpers ===
+
+# ------------------------------------------------------------------------------
+# Public Helpers
+# ------------------------------------------------------------------------------
+
 func get_current_phase() -> Phase:
 	return current_phase
+
 
 func can_roll_dice() -> bool:
 	return current_phase == Phase.ROLL_DICE
 
+
 func is_game_over() -> bool:
 	return current_phase == Phase.GAME_OVER
+
 
 func end_player_phase() -> void:
 	match current_phase:
@@ -183,9 +238,11 @@ func end_player_phase() -> void:
 		Phase.PLAYER_TURN_2:
 			_set_phase(Phase.ENEMY_TURN_2)
 
+
 func advance_to_post_roll() -> void:
 	if current_phase == Phase.ROLL_DICE:
 		_set_phase(Phase.PLAYER_TURN_2)
+
 
 func advance_to_resolution() -> void:
 	if current_phase == Phase.ENEMY_TURN_2:

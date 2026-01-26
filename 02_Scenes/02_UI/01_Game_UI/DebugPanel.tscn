@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://bitqu2t8o07jh"]
+
+[ext_resource type="Script" uid="uid://t77e1ybxnxp6" path="res://03_Scripts/03_UI/DebugPanel.gd" id="1_5qmyx"]
+
+[node name="DebugPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_direction = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 176.0
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_5qmyx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Debug Panel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollapseButton" type="Button" parent="VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Collapse"
+
+[node name="EnableDebug" type="CheckBox" parent="VBoxContainer"]
+layout_mode = 2
+text = "Enable Debug"
+
+[node name="ShowRays" type="CheckBox" parent="VBoxContainer"]
+layout_mode = 2
+text = "Show Raycasts"
+
+[node name="ResetAll" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Reset All"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="CategoryList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2

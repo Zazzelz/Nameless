@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cs3mpnjdes0il"
+
+[deps]
+
+files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Flavour Text.translation"]
+
+source_file="res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.csv"
+dest_files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/P1_Fate.Flavour Text.translation"]
+
+[params]
+
+compress=true
+delimiter=0

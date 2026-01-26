@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dxnjp4c0qxi6a"
+
+[deps]
+
+files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Flavour Text.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Phase.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Category.translation"]
+
+source_file="res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.csv"
+dest_files=["res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Base Effect.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Wager Bonus.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Risk.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Flavour Text.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Phase.translation", "res://00_Assets/00_Concept_Art/PrototypeDeck/StartingDeck/Book1.Category.translation"]
+
+[params]
+
+compress=true
+delimiter=0

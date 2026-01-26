@@ -36,6 +36,9 @@ directional_shadow_max_distance = 61.0
 [node name="CardGameBoard" parent="." instance=ExtResource("1_6tshy")]
 transform = Transform3D(0.0008378029, 0, -0.99999964, 0, 1, 0, 0.99999964, 0, 0.0008378029, 0, 4.4236794, 0)
 
+[node name="ZoneManager" parent="CardGameBoard" index="2"]
+transform = Transform3D(-1, 0, 8.742791e-08, 0, 1, 0, -8.742791e-08, 0, -1, 0, 0, 0)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.026715191, -0.48822504, 0.87230885, -0.009542167, 0.87245595, 0.48859966, -0.99959755, -0.02137675, 0.018649103, 7.9153013, 7.5545716, 0.26399553)
 
@@ -50,3 +53,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.39271164, 5.751192, 0)
 
 [node name="Dice2" parent="." groups=["Player_Dice"] instance=ExtResource("2_e8xpi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6195936, 0)
+
+[editable path="CardGameBoard"]
+[editable path="CardGameBoard/ZoneManager"]
+[editable path="GameTable"]
